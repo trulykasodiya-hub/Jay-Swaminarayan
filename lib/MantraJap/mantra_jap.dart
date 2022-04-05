@@ -304,11 +304,11 @@ class _MantraJapState extends State<MantraJap> {
       DatabaseHelper.columnDate: date
     };
     MantraJapModel mantraJapModel = MantraJapModel.fromMap(row);
-    final id = await dbHelper.insert(mantraJapModel);
+    await dbHelper.insert(mantraJapModel);
     setState(() {
       _counter = 0;
     });
-    _showMessageInScaffold('inserted row id: $id');
+    _showMessageInScaffold('તમારો મંત્રજાપ સાચવવા માં આવીયો છે.');
   }
 
   Future<bool> showExitPopup() async {
