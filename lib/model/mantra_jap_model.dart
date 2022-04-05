@@ -1,4 +1,3 @@
-
 import '../Controller/database_helper.dart';
 
 class MantraJapModel {

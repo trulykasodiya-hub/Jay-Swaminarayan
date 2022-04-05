@@ -1,15 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:swaminarayancounter/Controller/ad_helper.dart';
 import 'package:swaminarayancounter/MantraJap/view_mantra_jap.dart';
-import 'package:swaminarayancounter/Utility/shared_preferences.dart';
 import 'package:swaminarayancounter/app_drawer.dart';
 import 'package:swaminarayancounter/constant.dart';
-import 'package:swaminarayancounter/main.dart';
-import 'package:swaminarayancounter/model/mantraJap_Model.dart';
+import 'package:swaminarayancounter/model/mantra_jap_model.dart';
 
 import '../Controller/database_helper.dart';
 
@@ -96,12 +92,10 @@ class _MantraJapState extends State<MantraJap> {
     _interstitialAd = null;
   }
 
-  void _showMessageInScaffold(String message){
-    _scaffoldKey.currentState!.showSnackBar(
-        SnackBar(
-          content: Text(message),
-        )
-    );
+  void _showMessageInScaffold(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
   }
 
   @override

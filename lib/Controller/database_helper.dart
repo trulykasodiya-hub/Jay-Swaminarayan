@@ -1,11 +1,9 @@
-
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../model/mantraJap_Model.dart';
+import '../model/mantra_jap_model.dart';
 
 class DatabaseHelper {
-
   static const _databaseName = "jai_swaminarayan.db";
   static const _databaseVersion = 1;
 
@@ -32,8 +30,7 @@ class DatabaseHelper {
   _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
     return await openDatabase(path,
-        version: _databaseVersion,
-        onCreate: _onCreate);
+        version: _databaseVersion, onCreate: _onCreate);
   }
 
   // SQL code to create the database table
@@ -54,7 +51,8 @@ class DatabaseHelper {
   // inserted row.
   Future<int> insert(MantraJapModel mantraJapModel) async {
     Database db = await instance.database;
-    return await db.insert(table, {'count': mantraJapModel.count, 'date': mantraJapModel.date});
+    return await db.insert(
+        table, {'count': mantraJapModel.count, 'date': mantraJapModel.date});
   }
 
   // All of the rows are returned as a list of maps, where each map is
@@ -74,7 +72,8 @@ class DatabaseHelper {
   // raw SQL commands. This method uses a raw query to give the row count.
   Future<int?> queryRowCount() async {
     Database db = await instance.database;
-    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $table'));
+    return Sqflite.firstIntValue(
+        await db.rawQuery('SELECT COUNT(*) FROM $table'));
   }
 
   // We are assuming here that the id column in the map is set. The other
@@ -82,7 +81,8 @@ class DatabaseHelper {
   Future<int> update(MantraJapModel mantraJapModel) async {
     Database db = await instance.database;
     int id = mantraJapModel.toMap()['id'];
-    return await db.update(table, mantraJapModel.toMap(), where: '$columnId = ?', whereArgs: [id]);
+    return await db.update(table, mantraJapModel.toMap(),
+        where: '$columnId = ?', whereArgs: [id]);
   }
 
   // Deletes the row specified by the id. The number of affected rows is

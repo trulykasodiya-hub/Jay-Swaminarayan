@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:swaminarayancounter/Utility/shared_preferences.dart';
 import 'package:swaminarayancounter/constant.dart';
-import 'package:swaminarayancounter/main.dart';
-import 'package:swaminarayancounter/model/mantraJap_Model.dart';
+import 'package:swaminarayancounter/model/mantra_jap_model.dart';
 
 import '../Controller/database_helper.dart';
 import '../app_drawer.dart';
@@ -20,7 +16,6 @@ class ViewMantraJap extends StatefulWidget {
 }
 
 class _ViewMantraJapState extends State<ViewMantraJap> {
-
   // Database
   final dbHelper = DatabaseHelper.instance;
   List<MantraJapModel> totalMantraJap = [];
@@ -53,47 +48,46 @@ class _ViewMantraJapState extends State<ViewMantraJap> {
       body: SafeArea(
           child: totalMantraJap.isNotEmpty
               ? RefreshIndicator(
-            onRefresh: _refreshData,
-                child: ListView.builder(
-                    itemCount: totalMantraJap.length,
-                    itemBuilder: (context, i) {
-                      return Card(
-                          child: ListTile(
-                        title: Padding(
-                          padding:
-                              const EdgeInsets.symmetric(vertical: padding / 2),
-                          child: Text(
-                            "તમારો મંત્રજાપ : ${totalMantraJap[i].count}",
-                            style: const TextStyle(
+                  onRefresh: _refreshData,
+                  child: ListView.builder(
+                      itemCount: totalMantraJap.length,
+                      itemBuilder: (context, i) {
+                        return Card(
+                            child: ListTile(
+                          title: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: padding / 2),
+                            child: Text(
+                              "તમારો મંત્રજાપ : ${totalMantraJap[i].count}",
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: fontSize,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          subtitle: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: padding / 2),
+                            child: Text(
+                              "મંત્રજાપ સેવ કરેલ તારીખ : " +
+                                  DateFormat.yMd().format(DateTime.parse(
+                                      "${totalMantraJap[i].date}")),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          trailing: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _deleteMantraJap(totalMantraJap[i].id, i);
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.delete,
                                 color: Colors.white,
-                                fontSize: fontSize,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        subtitle: Padding(
-                          padding:
-                              const EdgeInsets.symmetric(vertical: padding / 2),
-                          child: Text(
-                            "મંત્રજાપ સેવ કરેલ તારીખ : " +
-                                DateFormat.yMd().format(DateTime.parse(
-                                    "${totalMantraJap[i].date}")),
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        trailing: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _deleteMantraJap(totalMantraJap[i].id,i);
-
-                              });
-                            },
-                            icon: const Icon(
-                              Icons.delete,
-                              color: Colors.white,
-                            )),
-                      ));
-                    }),
-              )
+                              )),
+                        ));
+                      }),
+                )
               : const Center(
                   child: Text(noData),
                 )),
@@ -110,18 +104,17 @@ class _ViewMantraJapState extends State<ViewMantraJap> {
   }
 
   Future<void> _refreshData() async {
-     _queryAll();
+    _queryAll();
   }
 
-  Future<void> _deleteMantraJap(id,index) async {
+  Future<void> _deleteMantraJap(id, index) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(headerTitle),
-          content:
-          const Text("શુ તમે તમારા મંત્રજાપ ને કાઢી નાખવા માંગો છો ?"),
+          content: const Text("શુ તમે તમારા મંત્રજાપ ને કાઢી નાખવા માંગો છો ?"),
           actions: <Widget>[
             TextButton(
               child: const Text('ના'),
