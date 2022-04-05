@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "817314597317",
+    "project_id": "jay-swaminarayan-e80af",
+    "storage_bucket": "jay-swaminarayan-e80af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817314597317:android:fd20b21a83b357a574e3ac",
+        "android_client_info": {
+          "package_name": "com.truly.swaminarayancounter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "817314597317-s46ooabnn2pb41pbnjfkvcinidssspei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAc0cM9-1wLrxBk1D09mny6OQDC5z5-a-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "817314597317-s46ooabnn2pb41pbnjfkvcinidssspei.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-9521533071695014~4071285959"
+    }
+  ],
+  "configuration_version": "1"
+}
