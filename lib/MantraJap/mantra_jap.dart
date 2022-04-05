@@ -27,7 +27,6 @@ class _MantraJapState extends State<MantraJap> {
   final dbHelper = DatabaseHelper.instance;
 
   int _counter = 0;
-  List totalMantraJap = [];
   bool shouldPop = true;
 
   // ads
@@ -46,13 +45,6 @@ class _MantraJapState extends State<MantraJap> {
     // TODO: implement initState
     super.initState();
     _createInterstitialAd();
-    setState(() {
-      if (prefs.getString(mantraJapKey) != null) {
-        dynamic data = prefs.getString(mantraJapKey);
-        dynamic decodeData = jsonDecode(data);
-        totalMantraJap = decodeData;
-      }
-    });
   }
 
   void _createInterstitialAd() {
