@@ -39,6 +39,8 @@ dependencies:
   intl: ^0.17.0
   in_app_update: ^3.0.0
   google_mobile_ads: ^1.2.0
+  sqflite: ^2.0.2
+  path: ^1.8.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

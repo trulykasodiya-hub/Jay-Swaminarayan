@@ -9,6 +9,9 @@ import 'package:swaminarayancounter/Utility/shared_preferences.dart';
 import 'package:swaminarayancounter/app_drawer.dart';
 import 'package:swaminarayancounter/constant.dart';
 import 'package:swaminarayancounter/main.dart';
+import 'package:swaminarayancounter/model/mantraJap_Model.dart';
+
+import '../Controller/database_helper.dart';
 
 class MantraJap extends StatefulWidget {
   const MantraJap({Key? key}) : super(key: key);
@@ -18,6 +21,11 @@ class MantraJap extends StatefulWidget {
 }
 
 class _MantraJapState extends State<MantraJap> {
+  // _scaffoldKey
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  // Database
+  final dbHelper = DatabaseHelper.instance;
+
   int _counter = 0;
   List totalMantraJap = [];
   bool shouldPop = true;
@@ -96,11 +104,20 @@ class _MantraJapState extends State<MantraJap> {
     _interstitialAd = null;
   }
 
+  void _showMessageInScaffold(String message){
+    _scaffoldKey.currentState!.showSnackBar(
+        SnackBar(
+          content: Text(message),
+        )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => showExitPopup(),
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           elevation: 0.0,
           title: const Text(mantraJap),
@@ -243,17 +260,8 @@ class _MantraJapState extends State<MantraJap> {
                 ? TextButton(
                     child: const Text('સેવ'),
                     onPressed: () {
-                      setState(() {
-                        var data = {
-                          "count": _counter,
-                          "date": "${DateTime.now()}"
-                        };
-                        totalMantraJap.add(data);
-                      });
-                      UserPreferences()
-                          .saveMantraJap(jsonEncode(totalMantraJap));
+                      _insert("$_counter", "${DateTime.now()}");
                       Navigator.pop(context, true);
-                      Navigator.pop(context);
                     },
                   )
                 : const SizedBox(
@@ -295,6 +303,20 @@ class _MantraJapState extends State<MantraJap> {
         );
       },
     );
+  }
+
+  void _insert(count, date) async {
+    // row to insert
+    Map<String, dynamic> row = {
+      DatabaseHelper.columnCount: count,
+      DatabaseHelper.columnDate: date
+    };
+    MantraJapModel mantraJapModel = MantraJapModel.fromMap(row);
+    final id = await dbHelper.insert(mantraJapModel);
+    setState(() {
+      _counter = 0;
+    });
+    _showMessageInScaffold('inserted row id: $id');
   }
 
   Future<bool> showExitPopup() async {
