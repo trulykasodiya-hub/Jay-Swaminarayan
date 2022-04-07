@@ -140,74 +140,60 @@ class Controls extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _space,
-          MetaDataSection(place: place),
-          _space,
+          const SizedBox(height: 10),
+          const _Text('Title', "🔴 લાઈવ દર્શન"),
+          const SizedBox(height: 10),
+          _Text('તીર્થ ધામ', place),
+          const SizedBox(height: 10),
+          const _Text(
+            'Playback Quality',
+            "HD",
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              const _Text(
+                'Speed',
+                '',
+              ),
+              YoutubeValueBuilder(
+                builder: (context, value) {
+                  return DropdownButton(
+                    value: value.playbackRate,
+                    isDense: true,
+                    underline: const SizedBox(),
+                    items: PlaybackRate.all
+                        .map(
+                          (rate) => DropdownMenuItem(
+                        child: Text(
+                          '${rate}x',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        value: rate,
+                      ),
+                    )
+                        .toList(),
+                    onChanged: (double? newValue) {
+                      if (newValue != null) {
+                        context.ytController.setPlaybackRate(newValue);
+                      }
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
         ],
       ),
     );
   }
 
-  Widget get _space => const SizedBox(height: 10);
 }
 
-class MetaDataSection extends StatelessWidget {
-  final String place;
-  const MetaDataSection({Key? key, required this.place}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const _Text('Title', "🔴 લાઈવ દર્શન"),
-        const SizedBox(height: 10),
-        _Text('તીર્થ ધામ', place),
-        const SizedBox(height: 10),
-        const _Text(
-          'Playback Quality',
-          "HD",
-        ),
-        const SizedBox(height: 10),
-        Row(
-          children: [
-            const _Text(
-              'Speed',
-              '',
-            ),
-            YoutubeValueBuilder(
-              builder: (context, value) {
-                return DropdownButton(
-                  value: value.playbackRate,
-                  isDense: true,
-                  underline: const SizedBox(),
-                  items: PlaybackRate.all
-                      .map(
-                        (rate) => DropdownMenuItem(
-                          child: Text(
-                            '${rate}x',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          value: rate,
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (double? newValue) {
-                    if (newValue != null) {
-                      context.ytController.setPlaybackRate(newValue);
-                    }
-                  },
-                );
-              },
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
 
 class _Text extends StatelessWidget {
   final String title;
@@ -222,12 +208,14 @@ class _Text extends StatelessWidget {
         text: '$title : ',
         style: const TextStyle(
           fontWeight: FontWeight.bold,
+          color: Colors.black
         ),
         children: [
           TextSpan(
             text: value,
             style: const TextStyle(
               fontWeight: FontWeight.w300,
+                color: Colors.black
             ),
           ),
         ],
