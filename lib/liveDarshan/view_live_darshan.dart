@@ -165,15 +165,15 @@ class Controls extends StatelessWidget {
                     items: PlaybackRate.all
                         .map(
                           (rate) => DropdownMenuItem(
-                        child: Text(
-                          '${rate}x',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w300,
+                            child: Text(
+                              '${rate}x',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            value: rate,
                           ),
-                        ),
-                        value: rate,
-                      ),
-                    )
+                        )
                         .toList(),
                     onChanged: (double? newValue) {
                       if (newValue != null) {
@@ -190,10 +190,7 @@ class Controls extends StatelessWidget {
       ),
     );
   }
-
 }
-
-
 
 class _Text extends StatelessWidget {
   final String title;
@@ -206,17 +203,13 @@ class _Text extends StatelessWidget {
     return RichText(
       text: TextSpan(
         text: '$title : ',
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.black
-        ),
+        style:
+            const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         children: [
           TextSpan(
             text: value,
             style: const TextStyle(
-              fontWeight: FontWeight.w300,
-                color: Colors.black
-            ),
+                fontWeight: FontWeight.w300, color: Colors.black),
           ),
         ],
       ),

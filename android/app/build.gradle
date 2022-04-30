@@ -13,12 +13,12 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '201040'
+    flutterVersionCode = '201070'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '2.1.4'
+    flutterVersionName = '2.1.7'
 }
 
 apply plugin: 'com.android.application'
@@ -31,7 +31,7 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 31
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -60,6 +60,7 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.release
+            shrinkResources false
         }
     }
 }
@@ -81,4 +82,6 @@ dependencies {
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
     implementation 'com.google.android.play:core:1.10.3'
+
+    implementation "com.jakewharton.threetenabp:threetenabp:1.2.3"
 }

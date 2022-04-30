@@ -3,7 +3,6 @@ import 'package:swaminarayancounter/app_drawer.dart';
 import 'package:swaminarayancounter/constant.dart';
 import 'package:swaminarayancounter/janmangalNamavali/janmangal_namavali_list.dart';
 
-
 class JanmangalNamavaliPage extends StatelessWidget {
   const JanmangalNamavaliPage({Key? key}) : super(key: key);
 
@@ -25,8 +24,16 @@ class JanmangalNamavaliPage extends StatelessWidget {
           ],
           bottom: const TabBar(
             tabs: [
-              Tab(child: Text("નામાવલી",style: TextStyle(color: Colors.deepOrange),),),
-              Tab(child: Text("સ્ત્રોત",style: TextStyle(color: Colors.deepOrange)),),
+              Tab(
+                child: Text(
+                  "નામાવલી",
+                  style: TextStyle(color: Colors.deepOrange),
+                ),
+              ),
+              Tab(
+                child:
+                    Text("સ્ત્રોત", style: TextStyle(color: Colors.deepOrange)),
+              ),
             ],
           ),
         ),
@@ -55,26 +62,25 @@ class JanmangalStrot extends StatelessWidget {
           itemBuilder: (context, i) {
             return Card(
                 child: ListTile(
-                  title: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: padding / 2),
-                    child: Text(
-                      janmangalNamavaliStrotData[i],
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: fontSize,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  trailing: const Icon(
-                    Icons.check_circle,
-                    color: Colors.white,
-                  ),
-                ));
+              title: Padding(
+                padding: const EdgeInsets.symmetric(vertical: padding / 2),
+                child: Text(
+                  janmangalNamavaliStrotData[i],
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              trailing: const Icon(
+                Icons.check_circle,
+                color: Colors.white,
+              ),
+            ));
           }),
     );
   }
 }
-
 
 class JanmangalNamavali extends StatefulWidget {
   const JanmangalNamavali({Key? key}) : super(key: key);
@@ -93,26 +99,26 @@ class _JanmangalNamavaliState extends State<JanmangalNamavali> {
           itemBuilder: (context, i) {
             return Card(
                 child: ListTile(
-                  leading: Text(
-                    "${i + 1}",
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  title: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: padding / 2),
-                    child: Text(
-                      janmangalNamavaliData[i],
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: fontSize,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  trailing: const Icon(
-                    Icons.check_circle,
-                    color: Colors.white,
-                  ),
-                ));
+              leading: Text(
+                "${i + 1}",
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+              title: Padding(
+                padding: const EdgeInsets.symmetric(vertical: padding / 2),
+                child: Text(
+                  janmangalNamavaliData[i],
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              trailing: const Icon(
+                Icons.check_circle,
+                color: Colors.white,
+              ),
+            ));
           }),
     );
   }

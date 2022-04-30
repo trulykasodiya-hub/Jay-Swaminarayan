@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:swaminarayancounter/constant.dart';
+import 'package:swaminarayancounter/hanumanchalisa/hanuman_chalisa.dart';
+import 'package:swaminarayancounter/janmangalNamavali/janmangal_namavali.dart';
+import 'package:swaminarayancounter/liveDarshan/live_darshan.dart';
+import 'package:swaminarayancounter/nitya_niyam/nitya_niyam.dart';
+import 'package:swaminarayancounter/sikshapatri/sikshapatri.dart';
+import 'package:swaminarayancounter/swaminarayanStatus/swaminarayan_status.dart';
+
+import 'MantraJap/mantra_jap.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -11,10 +19,72 @@ class AppDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           _createHeader(),
-          _createDrawerItem(icon: Icons.check_circle, text: liveDarshan),
-          _createDrawerItem(icon: Icons.check_circle, text: mantraJap),
-          _createDrawerItem(icon: Icons.check_circle, text: janmangalNamavali),
-          _createDrawerItem(icon: Icons.check_circle, text: sikshapatri),
+          _createDrawerItem(
+              icon: Icons.check_circle,
+              text: liveDarshan,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LiveDarshan()),
+                );
+              }),
+          _createDrawerItem(
+              icon: Icons.check_circle,
+              text: mantraJap,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MantraJap()),
+                );
+              }),
+          _createDrawerItem(
+              icon: Icons.check_circle,
+              text: janmangalNamavali,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const JanmangalNamavaliPage()),
+                );
+              }),
+          _createDrawerItem(
+              icon: Icons.check_circle,
+              text: sikshapatri,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Sikshapatri()),
+                );
+              }),
+          _createDrawerItem(
+              icon: Icons.check_circle,
+              text: nityaNiyam,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const NityaNiyam()),
+                );
+              }),
+          _createDrawerItem(
+              icon: Icons.check_circle,
+              text: swaminarayanStatus,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SwaminarayanStatus()),
+                );
+              }),
+          _createDrawerItem(
+              icon: Icons.check_circle,
+              text: hanumanChalisa,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HanumanChalisa()),
+                );
+              }),
           // Divider(),
           // _createDrawerItem(icon: Icons.collections_bookmark, text:           'Steps'),
           // _createDrawerItem(icon: Icons.face, text: 'Authors'),
@@ -23,7 +93,7 @@ class AppDrawer extends StatelessWidget {
           const Divider(),
           _createDrawerItem(icon: Icons.bug_report, text: 'Report an issue'),
           ListTile(
-            title: const Text('App Version : V2.1.4'),
+            title: const Text('App Version : V2.1.7'),
             onTap: () {},
           ),
         ],

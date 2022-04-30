@@ -23,6 +23,7 @@ public class MainActivity extends FlutterActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(MainActivity.this);
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
         appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
