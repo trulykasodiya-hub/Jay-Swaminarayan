@@ -8,6 +8,7 @@ import 'package:swaminarayancounter/liveDarshan/live_darshan.dart';
 import 'package:swaminarayancounter/nitya_niyam/nitya_niyam.dart';
 import 'package:swaminarayancounter/sikshapatri/sikshapatri.dart';
 import 'package:swaminarayancounter/swaminarayanStatus/swaminarayan_status.dart';
+import 'package:swaminarayancounter/swaminarayanWallpaper/swaminarayan_wallpaper.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -254,25 +255,34 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               const SizedBox(height: customHeight/2),
-              // Card(
-              //   color: Colors.deepOrange,
-              //   child: SizedBox(
-              //     height: 100,
-              //     child: Center(
-              //       child: Padding(
-              //         padding: const EdgeInsets.all(padding*2),
-              //         child: Row(
-              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //           children: [
-              //             Text(wallpaper,style: textStyle),
-              //             const Icon(Icons.check_circle_outline,color: Colors.white)
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // const SizedBox(height: customHeight/2),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SwaminarayanWallpaper()),
+                  );
+                },
+                child: Card(
+                  color: Colors.deepOrange,
+                  child: SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(padding*2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(wallpaper,style: textStyle),
+                            const Icon(Icons.check_circle_outline,color: Colors.white)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: customHeight/2),
               // Card(
               //   color: Colors.deepOrange,
               //   child: SizedBox(

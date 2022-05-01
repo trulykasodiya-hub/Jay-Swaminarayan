@@ -6,6 +6,7 @@ import 'package:swaminarayancounter/liveDarshan/live_darshan.dart';
 import 'package:swaminarayancounter/nitya_niyam/nitya_niyam.dart';
 import 'package:swaminarayancounter/sikshapatri/sikshapatri.dart';
 import 'package:swaminarayancounter/swaminarayanStatus/swaminarayan_status.dart';
+import 'package:swaminarayancounter/swaminarayanWallpaper/swaminarayan_wallpaper.dart';
 
 import 'MantraJap/mantra_jap.dart';
 
@@ -83,6 +84,16 @@ class AppDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const HanumanChalisa()),
+                );
+              }),
+          _createDrawerItem(
+              icon: Icons.check_circle,
+              text: wallpaper,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SwaminarayanWallpaper()),
                 );
               }),
           // Divider(),

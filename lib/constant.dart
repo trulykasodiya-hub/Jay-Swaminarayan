@@ -61,19 +61,19 @@ const reShyamtane = "રે શ્યામ તમે સાચું નાણ�
 
 // nityaNiyam data url
 
-const godiUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651332709/Nityniyam/Godi.mp3";
+const godiUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651406475/Nityniyam/Godi.mp3";
 const aratiUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651332616/Nityniyam/Arati.mp3";
-const ramKrishnaGovindUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651330241/Nityniyam/SoundHelix-Song-1_neklui.mp3";
+const ramKrishnaGovindUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651408996/Nityniyam/Ramkrishnagovind.mp3";
 const navinjimutUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651333452/Nityniyam/Navanjimu.mp3";
 const nirvikalpUtamUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651333784/Nityniyam/Nirvikalpam.mp3";
 const slockUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651333866/Nityniyam/stuti.mp3";
-const nityaNiayamUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651330241/Nityniyam/SoundHelix-Song-1_neklui.mp3";
-const oraavoshyamUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651333220/Nityniyam/oraavoshyam.mp3";
-const haveMaraValaUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651334816/Nityniyam/Havemaravalane.mp3";
-const vanduUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651330241/Nityniyam/SoundHelix-Song-1_neklui.mp3";
-const podhePrbhuUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651330241/Nityniyam/SoundHelix-Song-1_neklui.mp3";
-const podhopodhoUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651330241/Nityniyam/SoundHelix-Song-1_neklui.mp3";
-const reShyamtaneUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651330241/Nityniyam/SoundHelix-Song-1_neklui.mp3";
+const nityaNiayamUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651399711/Nityniyam/PrathamShreeHariNeRe.mp3";
+const oraavoshyamUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651399745/Nityniyam/OraAavoShyamSnehiII.mp3";
+const haveMaraValaUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651399659/Nityniyam/HaveMaraValaNeNahiReVisaruRe.mp3";
+const vanduUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651335359/Nityniyam/Vandu.mp3";
+const podhePrbhuUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651409386/Nityniyam/Podheprabhusakalmunikeshyam.mp3";
+const podhopodhoUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651399698/Nityniyam/PodhoPodhoSahajanandSwami.mp4";
+const reShyamtaneUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651409252/Nityniyam/Reshyamtamesachunanu.mp3";
 
 // hanuman chalisha
 const hanumanChalisha = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651334388/Nityniyam/hanumanchalisa.mp3";

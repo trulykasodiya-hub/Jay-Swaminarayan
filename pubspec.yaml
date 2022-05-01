@@ -56,7 +56,11 @@ dependencies:
   dio: ^4.0.6
   path_provider: ^2.0.9
   flutter_overlay_loader: ^1.0.3
-
+  responsive_grid: ^2.1.0
+  wallpaper_manager_flutter: ^0.0.2
+  cached_network_image:
+  flutter_cache_manager:
+  adaptive_action_sheet:
 
 dev_dependencies:
   flutter_test:
