@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:swaminarayancounter/app_drawer.dart';
+import 'package:swaminarayancounter/skeletons/skeletons_wallpaper.dart';
 import 'package:wallpaper_manager_flutter/wallpaper_manager_flutter.dart';
 import '../constant.dart';
 
@@ -125,14 +126,14 @@ class _SwaminarayanWallpaperState extends State<SwaminarayanWallpaper> {
               },
               child: Container(
                 height: 180,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(i),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0)
+                child: CachedNetworkImage(
+                  imageUrl: i,
+                  height: 180,
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => skeletonsWallpaper(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
-                alignment: const Alignment(0, 0),
               ),
             );
           }).toList()
