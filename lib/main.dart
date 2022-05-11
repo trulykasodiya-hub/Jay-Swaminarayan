@@ -56,59 +56,59 @@ Future<void> main() async {
     androidNotificationOngoing: true,
   );
 
-  await _configureLocalTimeZone();
+ // await _configureLocalTimeZone();
 
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('app_icon');
-
-  /// Note: permissions aren't requested here just to demonstrate that can be
-  /// done later
-  final IOSInitializationSettings initializationSettingsIOS =
-      IOSInitializationSettings(
-          requestAlertPermission: false,
-          requestBadgePermission: false,
-          requestSoundPermission: false,
-          onDidReceiveLocalNotification: (
-            int id,
-            String? title,
-            String? body,
-            String? payload,
-          ) async {
-            didReceiveLocalNotificationSubject.add(
-              ReceivedNotification(
-                id: id,
-                title: title,
-                body: body,
-                payload: payload,
-              ),
-            );
-          });
-
-  final InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-    iOS: initializationSettingsIOS,
-  );
-
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (String? payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: $payload');
-    }
-    selectedNotificationPayload = payload;
-    selectNotificationSubject.add(payload);
-  });
+  // const AndroidInitializationSettings initializationSettingsAndroid =
+  //     AndroidInitializationSettings('app_icon');
+  //
+  // /// Note: permissions aren't requested here just to demonstrate that can be
+  // /// done later
+  // final IOSInitializationSettings initializationSettingsIOS =
+  //     IOSInitializationSettings(
+  //         requestAlertPermission: false,
+  //         requestBadgePermission: false,
+  //         requestSoundPermission: false,
+  //         onDidReceiveLocalNotification: (
+  //           int id,
+  //           String? title,
+  //           String? body,
+  //           String? payload,
+  //         ) async {
+  //           didReceiveLocalNotificationSubject.add(
+  //             ReceivedNotification(
+  //               id: id,
+  //               title: title,
+  //               body: body,
+  //               payload: payload,
+  //             ),
+  //           );
+  //         });
+  //
+  // final InitializationSettings initializationSettings = InitializationSettings(
+  //   android: initializationSettingsAndroid,
+  //   iOS: initializationSettingsIOS,
+  // );
+  //
+  // await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+  //     onSelectNotification: (String? payload) async {
+  //   if (payload != null) {
+  //     debugPrint('notification payload: $payload');
+  //   }
+  //   selectedNotificationPayload = payload;
+  //   selectNotificationSubject.add(payload);
+  // });
 
   runApp(const MyApp());
 }
 
-Future<void> _configureLocalTimeZone() async {
-  if (kIsWeb || Platform.isLinux) {
-    return;
-  }
-  tz.initializeTimeZones();
-  final String? timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
-  tz.setLocalLocation(tz.getLocation(timeZoneName!));
-}
+// Future<void> _configureLocalTimeZone() async {
+//   if (kIsWeb || Platform.isLinux) {
+//     return;
+//   }
+//   tz.initializeTimeZones();
+//   final String? timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+//   tz.setLocalLocation(tz.getLocation(timeZoneName!));
+// }
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -122,33 +122,33 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _requestPermissions();
-    scheduleNotification();
+   // _requestPermissions();
+   // scheduleNotification();
   }
 
-  void _requestPermissions() {
-    flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
-    flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            MacOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
-  }
+  // void _requestPermissions() {
+  //   flutterLocalNotificationsPlugin
+  //       .resolvePlatformSpecificImplementation<
+  //           IOSFlutterLocalNotificationsPlugin>()
+  //       ?.requestPermissions(
+  //         alert: true,
+  //         badge: true,
+  //         sound: true,
+  //       );
+  //   flutterLocalNotificationsPlugin
+  //       .resolvePlatformSpecificImplementation<
+  //           MacOSFlutterLocalNotificationsPlugin>()
+  //       ?.requestPermissions(
+  //         alert: true,
+  //         badge: true,
+  //         sound: true,
+  //       );
+  // }
 
   @override
   void dispose() {
-    didReceiveLocalNotificationSubject.close();
-    selectNotificationSubject.close();
+   // didReceiveLocalNotificationSubject.close();
+   // selectNotificationSubject.close();
     super.dispose();
   }
 
@@ -181,75 +181,75 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  scheduleNotification() async {
-    await _scheduleDailyTenAMNotification();
-    await _scheduleWeeklyMondayTenAMNotification();
-  }
-
-  Future<void> _scheduleDailyTenAMNotification() async {
-    final Int64List vibrationPattern = Int64List(4);
-    vibrationPattern[0] = 0;
-    vibrationPattern[1] = 1000;
-    vibrationPattern[2] = 5000;
-    vibrationPattern[3] = 2000;
-
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        'daily scheduled notification title',
-        'daily scheduled notification body',
-        _nextInstanceOfTenAM(),
-        NotificationDetails(
-          android: AndroidNotificationDetails('daily notification channel id',
-              'daily notification channel name',
-              channelDescription: 'daily notification description',
-              icon: 'secondary_icon',
-              largeIcon:
-                  const DrawableResourceAndroidBitmap('sample_large_icon'),
-              vibrationPattern: vibrationPattern,
-              enableLights: true,
-              color: const Color.fromARGB(255, 255, 0, 0),
-              ledColor: const Color.fromARGB(255, 255, 0, 0),
-              ledOnMs: 1000,
-              ledOffMs: 500),
-        ),
-        androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.time);
-  }
-
-  Future<void> _scheduleWeeklyMondayTenAMNotification() async {
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        'weekly scheduled notification title',
-        'weekly scheduled notification body',
-        _nextInstanceOfMondayTenAM(),
-        const NotificationDetails(
-          android: AndroidNotificationDetails('weekly notification channel id',
-              'weekly notification channel name',
-              channelDescription: 'weekly notificationdescription'),
-        ),
-        androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
-  }
-
-  tz.TZDateTime _nextInstanceOfTenAM() {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, 10);
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
-    }
-    return scheduledDate;
-  }
-
-  tz.TZDateTime _nextInstanceOfMondayTenAM() {
-    tz.TZDateTime scheduledDate = _nextInstanceOfTenAM();
-    while (scheduledDate.weekday != DateTime.monday) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
-    }
-    return scheduledDate;
-  }
+  // scheduleNotification() async {
+  //   await _scheduleDailyTenAMNotification();
+  //   await _scheduleWeeklyMondayTenAMNotification();
+  // }
+  //
+  // Future<void> _scheduleDailyTenAMNotification() async {
+  //   final Int64List vibrationPattern = Int64List(4);
+  //   vibrationPattern[0] = 0;
+  //   vibrationPattern[1] = 1000;
+  //   vibrationPattern[2] = 5000;
+  //   vibrationPattern[3] = 2000;
+  //
+  //   await flutterLocalNotificationsPlugin.zonedSchedule(
+  //       0,
+  //       'daily scheduled notification title',
+  //       'daily scheduled notification body',
+  //       _nextInstanceOfTenAM(),
+  //       NotificationDetails(
+  //         android: AndroidNotificationDetails('daily notification channel id',
+  //             'daily notification channel name',
+  //             channelDescription: 'daily notification description',
+  //             icon: 'secondary_icon',
+  //             largeIcon:
+  //                 const DrawableResourceAndroidBitmap('sample_large_icon'),
+  //             vibrationPattern: vibrationPattern,
+  //             enableLights: true,
+  //             color: const Color.fromARGB(255, 255, 0, 0),
+  //             ledColor: const Color.fromARGB(255, 255, 0, 0),
+  //             ledOnMs: 1000,
+  //             ledOffMs: 500),
+  //       ),
+  //       androidAllowWhileIdle: true,
+  //       uiLocalNotificationDateInterpretation:
+  //           UILocalNotificationDateInterpretation.absoluteTime,
+  //       matchDateTimeComponents: DateTimeComponents.time);
+  // }
+  //
+  // Future<void> _scheduleWeeklyMondayTenAMNotification() async {
+  //   await flutterLocalNotificationsPlugin.zonedSchedule(
+  //       0,
+  //       'weekly scheduled notification title',
+  //       'weekly scheduled notification body',
+  //       _nextInstanceOfMondayTenAM(),
+  //       const NotificationDetails(
+  //         android: AndroidNotificationDetails('weekly notification channel id',
+  //             'weekly notification channel name',
+  //             channelDescription: 'weekly notificationdescription'),
+  //       ),
+  //       androidAllowWhileIdle: true,
+  //       uiLocalNotificationDateInterpretation:
+  //           UILocalNotificationDateInterpretation.absoluteTime,
+  //       matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
+  // }
+  //
+  // tz.TZDateTime _nextInstanceOfTenAM() {
+  //   final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+  //   tz.TZDateTime scheduledDate =
+  //       tz.TZDateTime(tz.local, now.year, now.month, now.day, 10);
+  //   if (scheduledDate.isBefore(now)) {
+  //     scheduledDate = scheduledDate.add(const Duration(days: 1));
+  //   }
+  //   return scheduledDate;
+  // }
+  //
+  // tz.TZDateTime _nextInstanceOfMondayTenAM() {
+  //   tz.TZDateTime scheduledDate = _nextInstanceOfTenAM();
+  //   while (scheduledDate.weekday != DateTime.monday) {
+  //     scheduledDate = scheduledDate.add(const Duration(days: 1));
+  //   }
+  //   return scheduledDate;
+  // }
 }

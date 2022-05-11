@@ -104,7 +104,7 @@ class AppDrawer extends StatelessWidget {
           const Divider(),
           _createDrawerItem(icon: Icons.bug_report, text: 'Report an issue'),
           ListTile(
-            title: const Text('App Version : V2.1.7'),
+            title: const Text('App Version : V2.1.9'),
             onTap: () {},
           ),
         ],
