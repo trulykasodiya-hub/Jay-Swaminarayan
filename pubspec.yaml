@@ -62,7 +62,7 @@ dependencies:
   flutter_cache_manager:
   adaptive_action_sheet:
   skeletons: ^0.0.3
-
+  http:
 dev_dependencies:
   flutter_test:
     sdk: flutter

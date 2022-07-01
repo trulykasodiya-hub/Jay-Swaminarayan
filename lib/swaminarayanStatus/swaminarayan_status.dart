@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -10,7 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tiktoklikescroller/tiktoklikescroller.dart';
 import 'package:video_player/video_player.dart';
-
+import 'package:http/http.dart' as http;
 class SwaminarayanStatus extends StatefulWidget {
   const SwaminarayanStatus({Key? key}) : super(key: key);
   @override
@@ -18,15 +19,41 @@ class SwaminarayanStatus extends StatefulWidget {
 }
 
 class _SwaminarayanStatusState extends State<SwaminarayanStatus> {
+
+  List<String> statusUrl = [];
+  void fetchUrl() async {
+    try {
+      var response = await http.get(Uri.parse("https://satyamsteelindustries.com/get_swaminarayan_status.php"),headers: {
+      "Accept": "application/json",
+      "Access-Control_Allow_Origin": "*"
+      });
+
+      setState(() {
+       List data = jsonDecode(response.body);
+       List<String> newData = [];
+       for(int i = 0; i  < data.length; i++) {
+         newData.add(data[i]['url']);
+       }
+       statusUrl = newData;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchUrl();
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    final List<String> statusUrl = <String>[
-      "https://res.cloudinary.com/cloudinarydashboard-one/video/upload/v1651119320/swaminarayan%20_%20status/WhatsApp_Video_2022-04-11_at_5.48.59_PM_tvnlxc.mp4",
-      "https://res.cloudinary.com/cloudinarydashboard-one/video/upload/v1651118505/swaminarayan%20_%20status/WhatsApp_Video_2022-04-28_at_9.24.53_AM_cx8ggr.mp4",
-      "https://res.cloudinary.com/cloudinarydashboard-one/video/upload/v1651119320/swaminarayan%20_%20status/WhatsApp_Video_2022-04-11_at_5.48.59_PM_tvnlxc.mp4",
-    ];
+
     return Scaffold(
-        extendBody: true, body: SwaminarayanStatusBody(statusUrl: statusUrl));
+        extendBody: true, body: statusUrl.isNotEmpty ? SwaminarayanStatusBody(statusUrl: statusUrl) : const Center(child:  CircularProgressIndicator()));
   }
 }
 
