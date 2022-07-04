@@ -9,9 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:swaminarayancounter/Utility/api_url.dart';
+import 'package:swaminarayancounter/Utility/shared_preferences.dart';
+import 'package:swaminarayancounter/main.dart';
 import 'package:tiktoklikescroller/tiktoklikescroller.dart';
 import 'package:video_player/video_player.dart';
 import 'package:http/http.dart' as http;
+
 class SwaminarayanStatus extends StatefulWidget {
   const SwaminarayanStatus({Key? key}) : super(key: key);
   @override
@@ -20,21 +24,33 @@ class SwaminarayanStatus extends StatefulWidget {
 
 class _SwaminarayanStatusState extends State<SwaminarayanStatus> {
 
-  List<String> statusUrl = [];
+  List statusUrl = [];
   void fetchUrl() async {
     try {
-      var response = await http.get(Uri.parse("https://satyamsteelindustries.com/get_swaminarayan_status.php"),headers: {
+      var response = await http.get(Uri.parse(AppUrl.swaminarayanStatus),headers: {
       "Accept": "application/json",
       "Access-Control_Allow_Origin": "*"
       });
-
       setState(() {
+        List newData = [];
        List data = jsonDecode(response.body);
-       List<String> newData = [];
-       for(int i = 0; i  < data.length; i++) {
-         newData.add(data[i]['url']);
+       String? lastId = prefs.getString(swaminarayanLastIdKey);
+       if(lastId == null) {
+         statusUrl = data;
+       }else{
+         for(int i = 0; i  < data.length; i++) {
+           if(int.parse(data[i]['id']) >= int.parse(lastId)){
+             newData.add(data[i]);
+           }
+         }
+
+         for(int i = 0; i  < data.length; i++) {
+           if(int.parse(data[i]['id']) < int.parse(lastId)){
+             newData.add(data[i]);
+           }
+         }
+         statusUrl = newData;
        }
-       statusUrl = newData;
       });
     } catch (e) {
       print(e);
@@ -51,7 +67,6 @@ class _SwaminarayanStatusState extends State<SwaminarayanStatus> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         extendBody: true, body: statusUrl.isNotEmpty ? SwaminarayanStatusBody(statusUrl: statusUrl) : const Center(child:  CircularProgressIndicator()));
   }
@@ -59,7 +74,7 @@ class _SwaminarayanStatusState extends State<SwaminarayanStatus> {
 
 class SwaminarayanStatusBody extends StatefulWidget {
   final Controller? testingController;
-  final List<String> statusUrl;
+  final List statusUrl;
   const SwaminarayanStatusBody({
     Key? key,
     required this.statusUrl,
@@ -98,7 +113,7 @@ class _SwaminarayanStatusBodyState extends State<SwaminarayanStatusBody>
           children: List.generate(
             widget.statusUrl.length,
             (index) {
-              return VideoPlayerItem(url: widget.statusUrl[index]);
+              return VideoPlayerItem(url: widget.statusUrl[index]['url'],statusUrl: widget.statusUrl,id: widget.statusUrl[index]['id']);
             },
           ),
         ),
@@ -108,8 +123,10 @@ class _SwaminarayanStatusBodyState extends State<SwaminarayanStatusBody>
 }
 
 class VideoPlayerItem extends StatefulWidget {
+  final String id;
   final String url;
-  const VideoPlayerItem({Key? key, required this.url}) : super(key: key);
+  final List statusUrl;
+  const VideoPlayerItem({Key? key, required this.url, required this.statusUrl,required this.id}) : super(key: key);
 
   @override
   _VideoPlayerItemState createState() => _VideoPlayerItemState();
@@ -123,10 +140,10 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     _videoController = VideoPlayerController.network(widget.url)
       ..initialize().then((value) {
         _videoController!.play();
+        UserPreferences().saveSwaminarayanLastId(widget.id);
         setState(() {
           isShowPlaying = false;
         });
@@ -163,7 +180,23 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
       child: RotatedBox(
         quarterTurns: -1,
         child: Scaffold(
-          bottomNavigationBar: _buildOriginDesign(),
+          // floatingActionButton: Padding(
+          //   padding: const EdgeInsets.only(bottom: 20.0),
+          //   child: FloatingActionButton(
+          //     onPressed: () {
+          //       _videoController!.pause();
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) => StatusGridBody(statusUrl: widget.statusUrl,title: swaminarayanStatus,)),
+          //       );
+          //       // Add your onPressed code here!
+          //     },
+          //     backgroundColor: Colors.deepOrange,
+          //     child: const Icon(Icons.grid_on),
+          //   ),
+          // ),
+          bottomNavigationBar: _buildOriginDesign(context),
           body: SizedBox(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
@@ -228,7 +261,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
   bool downloading = false;
   var progressString = "";
 
-  Widget _buildOriginDesign() {
+  Widget _buildOriginDesign(context) {
     return CustomNavigationBar(
       iconSize: 30.0,
       selectedColor: Colors.white,
@@ -288,3 +321,6 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
     });
   }
 }
+
+
+

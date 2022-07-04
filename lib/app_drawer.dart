@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swaminarayancounter/constant.dart';
+import 'package:swaminarayancounter/hanumanStatus/hanuman_status.dart';
 import 'package:swaminarayancounter/hanumanchalisa/hanuman_chalisa.dart';
 import 'package:swaminarayancounter/janmangalNamavali/janmangal_namavali.dart';
 import 'package:swaminarayancounter/liveDarshan/live_darshan.dart';
@@ -96,6 +97,16 @@ class AppDrawer extends StatelessWidget {
                       builder: (context) => const SwaminarayanWallpaper()),
                 );
               }),
+          _createDrawerItem(
+              icon: Icons.check_circle,
+              text: hanumanStatus,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HanumanStatus()),
+                );
+              }),
           // Divider(),
           // _createDrawerItem(icon: Icons.collections_bookmark, text:           'Steps'),
           // _createDrawerItem(icon: Icons.face, text: 'Authors'),
@@ -104,7 +115,7 @@ class AppDrawer extends StatelessWidget {
           const Divider(),
           _createDrawerItem(icon: Icons.bug_report, text: 'Report an issue'),
           ListTile(
-            title: const Text('App Version : V2.1.9'),
+            title: const Text('App Version : V2.2.2'),
             onTap: () {},
           ),
         ],

@@ -1,11 +1,18 @@
+import 'package:facebook_audience_network/facebook_audience_network.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:swaminarayancounter/Controller/ad_helper.dart';
 import 'package:swaminarayancounter/app_drawer.dart';
 import 'package:swaminarayancounter/constant.dart';
 import 'package:swaminarayancounter/MantraJap/mantra_jap.dart';
+import 'package:swaminarayancounter/hanumanStatus/hanuman_status.dart';
 import 'package:swaminarayancounter/hanumanchalisa/hanuman_chalisa.dart';
 import 'package:swaminarayancounter/janmangalNamavali/janmangal_namavali.dart';
 import 'package:swaminarayancounter/liveDarshan/live_darshan.dart';
+import 'package:swaminarayancounter/mahadev_status/mahadev_status.dart';
 import 'package:swaminarayancounter/nitya_niyam/nitya_niyam.dart';
+import 'package:swaminarayancounter/radhaKrishanaStatus/radha_krishna_status.dart';
 import 'package:swaminarayancounter/sikshapatri/sikshapatri.dart';
 import 'package:swaminarayancounter/swaminarayanStatus/swaminarayan_status.dart';
 import 'package:swaminarayancounter/swaminarayanWallpaper/swaminarayan_wallpaper.dart';
@@ -21,6 +28,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
+  // TODO: Add _bannerAd
+  late BannerAd _bannerAd;
+  late FacebookBannerAd facebookBannerAd;
+
+  // TODO: Add _isBannerAdReady
+  bool _isBannerAdReady = false;
+
   void showSnack(String text) {
     if (_scaffoldKey.currentContext != null) {
       ScaffoldMessenger.of(_scaffoldKey.currentContext!)
@@ -32,11 +46,45 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    FacebookAudienceNetwork.init(
+        testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
+        iOSAdvertiserTrackingEnabled: true //default false
+    );
+
+    facebookBannerAd = FacebookBannerAd(
+        placementId: "536282994722777_579373690413707",
+        bannerSize: BannerSize.STANDARD,
+        listener: (result,val) {},
+    );
+
+    _bannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          if (kDebugMode) {
+            print('Failed to load a banner ad: ${err.message}');
+          }
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+
+    _bannerAd.load();
   }
 
   @override
   void dispose() {
     super.dispose();
+    _bannerAd.dispose();
   }
 
   @override
@@ -141,6 +189,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               const SizedBox(height: customHeight / 2),
+              facebookBannerAd,
+              const SizedBox(height: customHeight / 2),
               InkWell(
                 onTap: () {
                   Navigator.push(
@@ -203,35 +253,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SwaminarayanStatus()),
-                  );
-                },
-                child: Card(
-                  color: Colors.deepOrange,
-                  child: SizedBox(
-                    height: 100,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(padding * 2),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(swaminarayanStatus, style: textStyle),
-                            const Icon(Icons.check_circle_outline,
-                                color: Colors.white)
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: customHeight/2),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
                         builder: (context) => const HanumanChalisa()),
                   );
                 },
@@ -283,24 +304,127 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               const SizedBox(height: customHeight/2),
-              // Card(
-              //   color: Colors.deepOrange,
-              //   child: SizedBox(
-              //     height: 100,
-              //     child: Center(
-              //       child: Padding(
-              //         padding: const EdgeInsets.all(padding*2),
-              //         child: Row(
-              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //           children: [
-              //             Text(suvichar,style: textStyle),
-              //             const Icon(Icons.check_circle_outline,color: Colors.white)
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SwaminarayanStatus()),
+                  );
+                },
+                child: Card(
+                  color: Colors.deepOrange,
+                  child: SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(padding * 2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(swaminarayanStatus, style: textStyle),
+                            const Icon(Icons.check_circle_outline,
+                                color: Colors.white)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: customHeight/2),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HanumanStatus()),
+                  );
+                },
+                child: Card(
+                  color: Colors.deepOrange,
+                  child: SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(padding*2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(hanumanStatus,style: textStyle),
+                            const Icon(Icons.check_circle_outline,color: Colors.white)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: customHeight/2),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MahadevStatus()),
+                  );
+                },
+                child: Card(
+                  color: Colors.deepOrange,
+                  child: SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(padding*2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(mahadevStatus,style: textStyle),
+                            const Icon(Icons.check_circle_outline,color: Colors.white)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),   const SizedBox(height: customHeight/2),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RadhaKrishnaStatus()),
+                  );
+                },
+                child: Card(
+                  color: Colors.deepOrange,
+                  child: SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(padding*2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(radhaKrishana,style: textStyle),
+                            const Icon(Icons.check_circle_outline,color: Colors.white)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              // TODO: Display a banner when ready
+              if (_isBannerAdReady)
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: SizedBox(
+                    width: _bannerAd.size.width.toDouble(),
+                    height: _bannerAd.size.height.toDouble(),
+                    child: AdWidget(ad: _bannerAd),
+                  ),
+                ),
               const SizedBox(height: customHeight * 5),
             ],
           ),

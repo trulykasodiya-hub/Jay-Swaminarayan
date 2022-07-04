@@ -14,7 +14,10 @@ const sikshapatri = "શિક્ષાપત્રી";
 const swaminarayanDhun = "સ્વામિનારાયણ ધૂન";
 const swaminarayanRington = "સ્વામિનારાયણ રિંગટોન";
 const swaminarayanStatus = "સ્વામિનારાયણ વિડિયો";
+const mahadevStatus = "મહાદેવ વિડિઓ";
+const radhaKrishana = "રાધા કૃષ્ણ વિડિઓ";
 const wallpaper = "વોલપેપર";
+const hanumanStatus = "હનુમાન વિડિઓ";
 const hanumanChalisa = "હનુમાન ચાલીસા";
 const suvichar = "સુવિચાર";
 const viewMantraJap = "મંત્રજાપ જોવો";
@@ -76,4 +79,7 @@ const podhopodhoUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v165139
 const reShyamtaneUrl = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651409252/Nityniyam/Reshyamtamesachunanu.mp3";
 
 // hanuman chalisha
-const hanumanChalisha = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1651334388/Nityniyam/hanumanchalisa.mp3";
+const hanumanChalisha = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1656745613/Nityniyam/hanumanchalisa_1.mp3";
+
+// no images
+const noImages = "https://res.cloudinary.com/ddedmrbj6/image/upload/v1656768770/wallpaper/WhatsApp_Image_2022-07-02_at_7.01.18_PM_h43yvv.jpg";
