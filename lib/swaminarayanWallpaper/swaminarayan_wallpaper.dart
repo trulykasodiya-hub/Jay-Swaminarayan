@@ -1,10 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:http/http.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:responsive_grid/responsive_grid.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:swaminarayancounter/Utility/api_url.dart';
 import 'package:swaminarayancounter/app_drawer.dart';
 import 'package:swaminarayancounter/skeletons/skeletons_wallpaper.dart';
@@ -106,6 +112,26 @@ class _SwaminarayanWallpaperState extends State<SwaminarayanWallpaper> {
                                         Navigator.pop(context);
                                       },
                                       icon: const Icon(Icons.home)),
+                                  IconButton(
+                                      onPressed: () async {
+
+                                        var response = await get(Uri.parse(i));
+                                        final documentDirectory = (await getExternalStorageDirectory())!.path;
+                                        File imgFile = new File('$documentDirectory/flutter.png');
+                                        imgFile.writeAsBytesSync(response.bodyBytes);
+
+                                        Share.shareFiles([File('$documentDirectory/flutter.png').path],
+                                            text: headerTitle,
+                                            );
+                                        // final ByteData imageData =
+                                        //     await NetworkAssetBundle(Uri.parse(i)).load("");
+                                        // final Uint8List bytes = imageData.buffer.asUint8List();
+                                         //File file = File.fromUri(Uri.(i));
+                                        // Share.shareFiles([file.path], text: headerTitle);
+                                        // Share.shareFiles(['${file.path}/image.jpg'], text: 'Great picture');
+                                        //Share.share('check out my website https://example.com', subject: 'Look what I made!');
+                                      },
+                                      icon: const Icon(Icons.share)),
                                   const SizedBox(width: customWidth)
                                 ],
                               ),

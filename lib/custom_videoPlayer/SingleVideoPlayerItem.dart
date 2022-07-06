@@ -6,6 +6,7 @@ import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:swaminarayancounter/Utility/shared_preferences.dart';
@@ -115,7 +116,7 @@ class _SingleVideoPlayerItemState extends State<SingleVideoPlayerItem> {
                               height: 20.0,
                             ),
                             Text(
-                              "Downloading : $progressString",
+                              "Downloading...",
                               style: const TextStyle(
                                 color: Colors.white,
                               ),
@@ -166,7 +167,7 @@ class _SingleVideoPlayerItemState extends State<SingleVideoPlayerItem> {
         if (index == 0) {
           Navigator.pop(context);
         } else if (index == 1) {
-          downloadFile(widget.url);
+          _saveNetworkVideo(widget.url);
         } else {
           final ByteData imageData =
           await NetworkAssetBundle(Uri.parse(widget.url)).load("");
@@ -178,25 +179,46 @@ class _SingleVideoPlayerItemState extends State<SingleVideoPlayerItem> {
     );
   }
 
-  Future<void> downloadFile(url) async {
-    try {
-      var dir = await getApplicationDocumentsDirectory();
-      final File file = File(url);
-      await dio.download(url, "${dir.path}/${file.path.split('/').last}",
-          onReceiveProgress: (rec, total) {
-            setState(() {
-              downloading = true;
-              progressString = ((rec / total) * 100).toStringAsFixed(0) + "%";
-            });
-          });
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
+  void _saveNetworkVideo(url) async {
+    String path = url;
     setState(() {
-      downloading = false;
-      progressString = "Completed";
+      downloading = true;
+    });
+    GallerySaver.saveVideo(path, albumName: "jay_swaminarayan").then((bool? success) {
+      setState(() {
+        const snackBar = SnackBar(
+          content: Text('Yay! Downloading completed!'),
+        );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+
+        downloading = false;
+        progressString = "Completed";
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      });
     });
   }
+
+// Future<void> downloadFile(url) async {
+  //   try {
+  //     var dir = await getApplicationDocumentsDirectory();
+  //     final File file = File(url);
+  //     await dio.download(url, "${dir.path}/${file.path.split('/').last}",
+  //         onReceiveProgress: (rec, total) {
+  //           setState(() {
+  //             downloading = true;
+  //             progressString = ((rec / total) * 100).toStringAsFixed(0) + "%";
+  //           });
+  //         });
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print(e);
+  //     }
+  //   }
+  //   setState(() {
+  //     downloading = false;
+  //     progressString = "Completed";
+  //   });
+  // }
 }
