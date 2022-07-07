@@ -186,7 +186,7 @@ class _NityaNiyamState extends State<NityaNiyam> {
 
   @override
   void dispose() {
-    _player.dispose();
+    // _player.dispose();
     super.dispose();
   }
 

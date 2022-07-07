@@ -15,6 +15,7 @@ const swaminarayanDhun = "સ્વામિનારાયણ ધૂન";
 const swaminarayanRington = "સ્વામિનારાયણ રિંગટોન";
 const swaminarayanStatus = "સ્વામિનારાયણ વિડિયો";
 const mahadevStatus = "મહાદેવ વિડિઓ";
+const rington = "રિંગટોન";
 const radhaKrishana = "રાધા કૃષ્ણ વિડિઓ";
 const wallpaper = "વોલપેપર";
 const hanumanStatus = "હનુમાન વિડિઓ";

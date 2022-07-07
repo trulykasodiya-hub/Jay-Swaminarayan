@@ -111,7 +111,7 @@ class AppDrawer extends StatelessWidget {
               }),
           _createDrawerItem(
               icon: Icons.check_circle,
-              text: hanumanStatus,
+              text: mahadevStatus,
               onTap: () {
                 Navigator.push(
                   context,
@@ -121,7 +121,17 @@ class AppDrawer extends StatelessWidget {
               }),
           _createDrawerItem(
               icon: Icons.check_circle,
-              text: hanumanStatus,
+              text: radhaKrishana,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const RadhaKrishnaStatus()),
+                );
+              }),
+          _createDrawerItem(
+              icon: Icons.check_circle,
+              text: rington,
               onTap: () {
                 Navigator.push(
                   context,
@@ -137,7 +147,7 @@ class AppDrawer extends StatelessWidget {
           const Divider(),
           _createDrawerItem(icon: Icons.bug_report, text: 'Report an issue'),
           ListTile(
-            title: const Text('App Version : V2.2.4'),
+            title: const Text('App Version : V2.2.5'),
             onTap: () {},
           ),
         ],

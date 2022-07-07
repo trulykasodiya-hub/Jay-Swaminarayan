@@ -13,6 +13,7 @@ import 'package:swaminarayancounter/liveDarshan/live_darshan.dart';
 import 'package:swaminarayancounter/mahadev_status/mahadev_status.dart';
 import 'package:swaminarayancounter/nitya_niyam/nitya_niyam.dart';
 import 'package:swaminarayancounter/radhaKrishanaStatus/radha_krishna_status.dart';
+import 'package:swaminarayancounter/rington/rington.dart';
 import 'package:swaminarayancounter/sikshapatri/sikshapatri.dart';
 import 'package:swaminarayancounter/swaminarayanStatus/swaminarayan_status.dart';
 import 'package:swaminarayancounter/swaminarayanWallpaper/swaminarayan_wallpaper.dart';
@@ -387,7 +388,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 ),
-              ),   const SizedBox(height: customHeight/2),
+              ),
+              const SizedBox(height: customHeight/2),
               InkWell(
                 onTap: () {
                   Navigator.push(
@@ -407,6 +409,34 @@ class _MyHomePageState extends State<MyHomePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(radhaKrishana,style: textStyle),
+                            const Icon(Icons.check_circle_outline,color: Colors.white)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: customHeight/2),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Rington()),
+                  );
+                },
+                child: Card(
+                  color: Colors.deepOrange,
+                  child: SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(padding*2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(rington,style: textStyle),
                             const Icon(Icons.check_circle_outline,color: Colors.white)
                           ],
                         ),
