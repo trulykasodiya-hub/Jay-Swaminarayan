@@ -106,7 +106,7 @@ class _RadhaKrishnaStatusBodyState extends State<RadhaKrishnaStatusBody> with Si
           children: List.generate(
             widget.statusUrl.length,
                 (index) {
-              return SingleVideoPlayerItem(url: widget.statusUrl[index]['url'],id: widget.statusUrl[index]['id'],feturesName: "radhaKrishnaStatus",);
+              return SingleVideoPlayerItem(url: widget.statusUrl[index]['url'],id: widget.statusUrl[index]['id'],feturesName: "radhaKrishnaStatus",index: index,);
             },
           ),
         ),

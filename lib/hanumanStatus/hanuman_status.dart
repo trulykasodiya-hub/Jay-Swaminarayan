@@ -107,7 +107,7 @@ class _HanumanStatusBodyState extends State<HanumanStatusBody> with SingleTicker
           children: List.generate(
             widget.statusUrl.length,
                 (index) {
-              return SingleVideoPlayerItem(url: widget.statusUrl[index]['url'],id: widget.statusUrl[index]['id'],feturesName: "hanumanStatus",);
+              return SingleVideoPlayerItem(url: widget.statusUrl[index]['url'],id: widget.statusUrl[index]['id'],feturesName: "hanumanStatus",index: index,);
             },
           ),
         ),

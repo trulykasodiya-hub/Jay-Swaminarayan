@@ -1,3 +1,4 @@
+import 'package:facebook_audience_network/ad/ad_rewarded.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:typed_data';
@@ -16,7 +17,8 @@ class SingleVideoPlayerItem extends StatefulWidget {
   final String url;
   final String id;
   final String feturesName;
-  const SingleVideoPlayerItem({Key? key, required this.url,required this.id,required this.feturesName}) : super(key: key);
+  final int index;
+  const SingleVideoPlayerItem({Key? key, required this.url,required this.id,required this.feturesName,required this.index}) : super(key: key);
 
   @override
   _SingleVideoPlayerItemState createState() => _SingleVideoPlayerItemState();
@@ -26,10 +28,30 @@ class _SingleVideoPlayerItemState extends State<SingleVideoPlayerItem> {
   VideoPlayerController? _videoController;
   bool isShowPlaying = false;
   Dio dio = Dio();
+  bool _isRewardedAdLoaded = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    if(widget.feturesName == "hanumanStatus"){
+      if(widget.index == 6) {
+        _loadRewardedVideoAd();
+        FacebookRewardedVideoAd.showRewardedVideoAd();
+      }
+    }else if(widget.feturesName == "mahadevStatus"){
+      if(widget.index == 7) {
+        _loadRewardedVideoAd();
+        FacebookRewardedVideoAd.showRewardedVideoAd();
+      }
+    }else{
+      if(widget.index == 10) {
+        _loadRewardedVideoAd();
+        FacebookRewardedVideoAd.showRewardedVideoAd();
+      }
+    }
+
+
     _videoController = VideoPlayerController.network(widget.url)
       ..initialize().then((value) {
         _videoController!.play();
@@ -44,6 +66,21 @@ class _SingleVideoPlayerItemState extends State<SingleVideoPlayerItem> {
           isShowPlaying = false;
         });
       });
+  }
+
+  void _loadRewardedVideoAd() {
+    FacebookRewardedVideoAd.loadRewardedVideoAd(
+      placementId: "YOUR_PLACEMENT_ID",
+      listener: (result, value) {
+        print("Rewarded Ad: $result --> $value");
+        if (result == RewardedVideoAdResult.LOADED) _isRewardedAdLoaded = true;
+        if (result == RewardedVideoAdResult.VIDEO_COMPLETE && result == RewardedVideoAdResult.VIDEO_CLOSED &&
+            (value == true || value["invalidated"] == true)) {
+          _isRewardedAdLoaded = false;
+          _loadRewardedVideoAd();
+        }
+      },
+    );
   }
 
   @override

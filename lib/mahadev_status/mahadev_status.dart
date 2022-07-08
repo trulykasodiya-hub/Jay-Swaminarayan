@@ -106,7 +106,7 @@ class _MahadevStatusBodyState extends State<MahadevStatusBody> with SingleTicker
           children: List.generate(
             widget.statusUrl.length,
                 (index) {
-              return SingleVideoPlayerItem(url: widget.statusUrl[index]['url'],id: widget.statusUrl[index]['id'],feturesName: "mahadevStatus",);
+              return SingleVideoPlayerItem(url: widget.statusUrl[index]['url'],id: widget.statusUrl[index]['id'],feturesName: "mahadevStatus",index: index,);
             },
           ),
         ),

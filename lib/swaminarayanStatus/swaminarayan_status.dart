@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:dio/dio.dart';
+import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -89,7 +90,7 @@ class SwaminarayanStatusBody extends StatefulWidget {
 class _SwaminarayanStatusBodyState extends State<SwaminarayanStatusBody>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
-
+  var adsCount = 0;
   @override
   initState() {
     _tabController =
@@ -114,7 +115,7 @@ class _SwaminarayanStatusBodyState extends State<SwaminarayanStatusBody>
           children: List.generate(
             widget.statusUrl.length,
             (index) {
-              return VideoPlayerItem(url: widget.statusUrl[index]['url'],statusUrl: widget.statusUrl,id: widget.statusUrl[index]['id']);
+              return VideoPlayerItem(url: widget.statusUrl[index]['url'],statusUrl: widget.statusUrl,id: widget.statusUrl[index]['id'],index: index);
             },
           ),
         ),
@@ -127,7 +128,8 @@ class VideoPlayerItem extends StatefulWidget {
   final String id;
   final String url;
   final List statusUrl;
-  const VideoPlayerItem({Key? key, required this.url, required this.statusUrl,required this.id}) : super(key: key);
+  final int index;
+  const VideoPlayerItem({Key? key, required this.url, required this.statusUrl,required this.id,required this.index}) : super(key: key);
 
   @override
   _VideoPlayerItemState createState() => _VideoPlayerItemState();
@@ -136,11 +138,16 @@ class VideoPlayerItem extends StatefulWidget {
 class _VideoPlayerItemState extends State<VideoPlayerItem> {
   VideoPlayerController? _videoController;
   bool isShowPlaying = false;
+  bool _isRewardedAdLoaded = false;
   Dio dio = Dio();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    if(widget.index == 5) {
+      _loadRewardedVideoAd();
+      FacebookRewardedVideoAd.showRewardedVideoAd();
+    }
     _videoController = VideoPlayerController.network(widget.url)
       ..initialize().then((value) {
         _videoController!.play();
@@ -149,6 +156,21 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
           isShowPlaying = false;
         });
       });
+  }
+
+  void _loadRewardedVideoAd() {
+    FacebookRewardedVideoAd.loadRewardedVideoAd(
+      placementId: "YOUR_PLACEMENT_ID",
+      listener: (result, value) {
+        print("Rewarded Ad: $result --> $value");
+        if (result == RewardedVideoAdResult.LOADED) _isRewardedAdLoaded = true;
+        if (result == RewardedVideoAdResult.VIDEO_COMPLETE && result == RewardedVideoAdResult.VIDEO_CLOSED &&
+              (value == true || value["invalidated"] == true)) {
+          _isRewardedAdLoaded = false;
+          _loadRewardedVideoAd();
+        }
+      },
+    );
   }
 
   @override

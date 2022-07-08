@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:audio_session/audio_session.dart';
+import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -23,6 +24,7 @@ class Rington extends StatefulWidget {
 
 class _RingtonState extends State<Rington> {
   late AudioPlayer _hanumanChalisaPlayer;
+  late FacebookBannerAd facebookBannerAd;
   List statusUrl = [];
   ConcatenatingAudioSource _playlist =   ConcatenatingAudioSource(children: []);
   void fetchUrl() async {
@@ -59,6 +61,12 @@ class _RingtonState extends State<Rington> {
     // TODO: implement initState
     super.initState();
     fetchUrl();
+    facebookBannerAd = FacebookBannerAd(
+        placementId: "536282994722777_579373690413707",
+        bannerSize: BannerSize.STANDARD,
+        keepAlive: true,
+        listener: (result,val) {},
+    );
     _hanumanChalisaPlayer = AudioPlayer();
 
   }
@@ -150,37 +158,73 @@ class _RingtonState extends State<Rington> {
             final metadata = state!.currentSource!.tag as MediaItem;
             print("metaData => ${metadata.id}");
             return Center(
-              child: ListView(
-                children: [
-              for(int index = 0 ; index < statusUrl.length; index++)
-              Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                  color: int.parse(metadata.id) == index + 1
-                      ? Colors.green
-                      : Colors.deepOrange.shade400,
-                  child: InkWell(
-                    child: ListTile(
-                        onTap: () async {
-                          await _hanumanChalisaPlayer.seek(
-                              const Duration(milliseconds: 0),
-                              index: index);
-                        },
-                        title: Text("$rington ${index + 1}", style: textStyle),
-                        trailing: InkWell(
-                            onTap: () {
-                              RingtoneSet.setRingtoneFromNetwork(statusUrl[index]['url']).then((value) {
-                                const snackBar = SnackBar(
-                                  content: Text('Yay! રિંગટોને સેટ થઈ ગઈ છે!'),
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                              });
-                            },
-                            child: Container(height: 35,width: 60,child:const Center(child: Text("SET")),decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(10)),))),
-                  )),
-            ),
-
-                ],
+              child: ListView.builder(
+                itemCount: statusUrl.length,
+                  itemBuilder: (context,index){
+                    return Builder(builder: (context){
+                      if(index % 10 == 0) {
+                        return Column(
+                          children: [
+                            facebookBannerAd,
+                          const SizedBox(height: 18.0),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+                                color: int.parse(metadata.id) == index + 1
+                                    ? Colors.green
+                                    : Colors.deepOrange.shade400,
+                                child: InkWell(
+                                  child: ListTile(
+                                      onTap: () async {
+                                        await _hanumanChalisaPlayer.seek(
+                                            const Duration(milliseconds: 0),
+                                            index: index);
+                                      },
+                                      title: Text("$rington ${index + 1}", style: textStyle),
+                                      trailing: InkWell(
+                                          onTap: () {
+                                            RingtoneSet.setRingtoneFromNetwork(statusUrl[index]['url']).then((value) {
+                                              const snackBar = SnackBar(
+                                                content: Text('Yay! રિંગટોને સેટ થઈ ગઈ છે!'),
+                                              );
+                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                            });
+                                          },
+                                          child: Container(height: 35,width: 60,child:const Center(child: Text("SET")),decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(10)),))),
+                                )),
+                          ),
+                          ],
+                        );
+                      }else{
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                              color: int.parse(metadata.id) == index + 1
+                                  ? Colors.green
+                                  : Colors.deepOrange.shade400,
+                              child: InkWell(
+                                child: ListTile(
+                                    onTap: () async {
+                                      await _hanumanChalisaPlayer.seek(
+                                          const Duration(milliseconds: 0),
+                                          index: index);
+                                    },
+                                    title: Text("$rington ${index + 1}", style: textStyle),
+                                    trailing: InkWell(
+                                        onTap: () {
+                                          RingtoneSet.setRingtoneFromNetwork(statusUrl[index]['url']).then((value) {
+                                            const snackBar = SnackBar(
+                                              content: Text('Yay! રિંગટોને સેટ થઈ ગઈ છે!'),
+                                            );
+                                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                          });
+                                        },
+                                        child: Container(height: 35,width: 60,child:const Center(child: Text("SET")),decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(10)),))),
+                              )),
+                        );
+                      }
+                    });
+                  },
               ),
             );
           }
