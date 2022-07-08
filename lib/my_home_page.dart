@@ -56,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
     facebookBannerAd = FacebookBannerAd(
         placementId: "536282994722777_579373690413707",
         bannerSize: BannerSize.STANDARD,
+        keepAlive: true,
         listener: (result,val) {},
     );
 

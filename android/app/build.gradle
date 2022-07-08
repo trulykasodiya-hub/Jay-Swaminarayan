@@ -13,12 +13,12 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '202050'
+    flutterVersionCode = '202060'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '2.2.5'
+    flutterVersionName = '2.2.6'
 }
 
 apply plugin: 'com.android.application'
@@ -70,6 +70,7 @@ flutter {
 }
 
 dependencies {
+    implementation 'androidx.appcompat:appcompat:1.4.2'
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:29.2.1')
 

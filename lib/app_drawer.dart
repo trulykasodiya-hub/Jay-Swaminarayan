@@ -6,6 +6,7 @@ import 'package:swaminarayancounter/janmangalNamavali/janmangal_namavali.dart';
 import 'package:swaminarayancounter/liveDarshan/live_darshan.dart';
 import 'package:swaminarayancounter/nitya_niyam/nitya_niyam.dart';
 import 'package:swaminarayancounter/radhaKrishanaStatus/radha_krishna_status.dart';
+import 'package:swaminarayancounter/rington/rington.dart';
 import 'package:swaminarayancounter/sikshapatri/sikshapatri.dart';
 import 'package:swaminarayancounter/swaminarayanStatus/swaminarayan_status.dart';
 import 'package:swaminarayancounter/swaminarayanWallpaper/swaminarayan_wallpaper.dart';
@@ -136,18 +137,13 @@ class AppDrawer extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const RadhaKrishnaStatus()),
+                      builder: (context) => const Rington()),
                 );
               }),
-          // Divider(),
-          // _createDrawerItem(icon: Icons.collections_bookmark, text:           'Steps'),
-          // _createDrawerItem(icon: Icons.face, text: 'Authors'),
-          // _createDrawerItem(icon: Icons.account_box, text: 'Flutter Documentation'),
-          // _createDrawerItem(icon: Icons.stars, text: 'Useful Links'),
           const Divider(),
           _createDrawerItem(icon: Icons.bug_report, text: 'Report an issue'),
           ListTile(
-            title: const Text('App Version : V2.2.5'),
+            title: const Text('App Version : V2.2.6'),
             onTap: () {},
           ),
         ],

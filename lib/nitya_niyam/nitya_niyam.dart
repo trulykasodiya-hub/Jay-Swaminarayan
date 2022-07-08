@@ -186,7 +186,7 @@ class _NityaNiyamState extends State<NityaNiyam> {
 
   @override
   void dispose() {
-    // _player.dispose();
+     _player.dispose();
     super.dispose();
   }
 
@@ -252,6 +252,7 @@ class _NityaNiyamState extends State<NityaNiyam> {
               final state = snapshot.data;
               if (state?.sequence.isEmpty ?? true) return const SizedBox();
               final metadata = state!.currentSource!.tag as MediaItem;
+              print("metaData => ${metadata.id}");
               return Center(
                 child: ListView(
                   children: <Widget>[
