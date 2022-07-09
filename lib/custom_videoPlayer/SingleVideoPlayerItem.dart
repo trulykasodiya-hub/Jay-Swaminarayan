@@ -1,4 +1,6 @@
+import 'package:facebook_audience_network/ad/ad_interstitial.dart';
 import 'package:facebook_audience_network/ad/ad_rewarded.dart';
+import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:typed_data';
@@ -10,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:swaminarayancounter/Utility/env.dart';
 import 'package:swaminarayancounter/Utility/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
@@ -27,57 +30,74 @@ class SingleVideoPlayerItem extends StatefulWidget {
 class _SingleVideoPlayerItemState extends State<SingleVideoPlayerItem> {
   VideoPlayerController? _videoController;
   bool isShowPlaying = false;
+  bool _isInterstitialAdLoaded = false;
   Dio dio = Dio();
-  bool _isRewardedAdLoaded = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    if(widget.feturesName == "hanumanStatus"){
-      if(widget.index == 6) {
-        _loadRewardedVideoAd();
-        FacebookRewardedVideoAd.showRewardedVideoAd();
-      }
-    }else if(widget.feturesName == "mahadevStatus"){
-      if(widget.index == 7) {
-        _loadRewardedVideoAd();
-        FacebookRewardedVideoAd.showRewardedVideoAd();
-      }
-    }else{
-      if(widget.index == 10) {
-        _loadRewardedVideoAd();
-        FacebookRewardedVideoAd.showRewardedVideoAd();
-      }
-    }
-
+    FacebookAudienceNetwork.init(
+        iOSAdvertiserTrackingEnabled: true //default false
+    );
 
     _videoController = VideoPlayerController.network(widget.url)
       ..initialize().then((value) {
-        _videoController!.play();
         if(widget.feturesName == "hanumanStatus"){
+          if(widget.index != 6) {
+            _videoController!.play();
+          }
           UserPreferences().saveHanumanStatusLastId(widget.id);
         }else if(widget.feturesName == "mahadevStatus"){
+          if(widget.index != 7) {
+            _videoController!.play();
+          }
           UserPreferences().saveMahadevStatusLastId(widget.id);
         }else{
+          if(widget.index != 10) {
+            _videoController!.play();
+          }
           UserPreferences().saveRadhaKrishnaStatusLastId(widget.id);
         }
         setState(() {
           isShowPlaying = false;
         });
       });
+
+    if(widget.feturesName == "hanumanStatus"){
+      if(widget.index == 6) {
+        _loadInterstitialAd();
+        FacebookInterstitialAd.showInterstitialAd();
+      }
+    }else if(widget.feturesName == "mahadevStatus"){
+      if(widget.index == 7) {
+        _loadInterstitialAd();
+        FacebookInterstitialAd.showInterstitialAd();
+      }
+    }else{
+      if(widget.index == 10) {
+        _loadInterstitialAd();
+        FacebookInterstitialAd.showInterstitialAd();
+      }
+    }
   }
 
-  void _loadRewardedVideoAd() {
-    FacebookRewardedVideoAd.loadRewardedVideoAd(
-      placementId: "YOUR_PLACEMENT_ID",
+  void _loadInterstitialAd() {
+    FacebookInterstitialAd.loadInterstitialAd(
+      // placementId: "YOUR_PLACEMENT_ID",
+      placementId: swaminarayanInterstialId,
       listener: (result, value) {
-        print("Rewarded Ad: $result --> $value");
-        if (result == RewardedVideoAdResult.LOADED) _isRewardedAdLoaded = true;
-        if (result == RewardedVideoAdResult.VIDEO_COMPLETE && result == RewardedVideoAdResult.VIDEO_CLOSED &&
-            (value == true || value["invalidated"] == true)) {
-          _isRewardedAdLoaded = false;
-          _loadRewardedVideoAd();
+        print(">> FAN > Interstitial Ad: $result --> $value");
+        if (result == InterstitialAdResult.LOADED) {
+          _isInterstitialAdLoaded = true;
+        }
+
+        /// Once an Interstitial Ad has been dismissed and becomes invalidated,
+        /// load a fresh Ad by calling this function.
+        if (result == InterstitialAdResult.DISMISSED &&
+            value["invalidated"] == true) {
+          _isInterstitialAdLoaded = false;
+          _loadInterstitialAd();
         }
       },
     );

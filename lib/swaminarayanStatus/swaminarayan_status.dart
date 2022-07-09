@@ -9,9 +9,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gallery_saver/gallery_saver.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:swaminarayancounter/Utility/api_url.dart';
+import 'package:swaminarayancounter/Utility/env.dart';
 import 'package:swaminarayancounter/Utility/shared_preferences.dart';
 import 'package:swaminarayancounter/main.dart';
 import 'package:tiktoklikescroller/tiktoklikescroller.dart';
@@ -138,40 +138,55 @@ class VideoPlayerItem extends StatefulWidget {
 class _VideoPlayerItemState extends State<VideoPlayerItem> {
   VideoPlayerController? _videoController;
   bool isShowPlaying = false;
-  bool _isRewardedAdLoaded = false;
+  bool _isInterstitialAdLoaded = false;
   Dio dio = Dio();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.index == 5) {
-      _loadRewardedVideoAd();
-      FacebookRewardedVideoAd.showRewardedVideoAd();
-    }
+    FacebookAudienceNetwork.init(
+        iOSAdvertiserTrackingEnabled: true //default false
+    );
+
     _videoController = VideoPlayerController.network(widget.url)
       ..initialize().then((value) {
-        _videoController!.play();
+        if(widget.index != 5) {
+          _videoController!.play();
+        }
         UserPreferences().saveSwaminarayanLastId(widget.id);
         setState(() {
           isShowPlaying = false;
         });
       });
+
+    if(widget.index == 5) {
+      _loadInterstitialAd();
+      FacebookInterstitialAd.showInterstitialAd();
+    }
   }
 
-  void _loadRewardedVideoAd() {
-    FacebookRewardedVideoAd.loadRewardedVideoAd(
-      placementId: "YOUR_PLACEMENT_ID",
+  void _loadInterstitialAd() {
+    FacebookInterstitialAd.loadInterstitialAd(
+      // placementId: "YOUR_PLACEMENT_ID",
+      placementId: swaminarayanInterstialId,
       listener: (result, value) {
-        print("Rewarded Ad: $result --> $value");
-        if (result == RewardedVideoAdResult.LOADED) _isRewardedAdLoaded = true;
-        if (result == RewardedVideoAdResult.VIDEO_COMPLETE && result == RewardedVideoAdResult.VIDEO_CLOSED &&
-              (value == true || value["invalidated"] == true)) {
-          _isRewardedAdLoaded = false;
-          _loadRewardedVideoAd();
+
+        print(">> FAN > Interstitial Ad: $result --> $value");
+        if (result == InterstitialAdResult.LOADED) {
+          _isInterstitialAdLoaded = true;
+        }
+
+        /// Once an Interstitial Ad has been dismissed and becomes invalidated,
+        /// load a fresh Ad by calling this function.
+        if (result == InterstitialAdResult.DISMISSED &&
+            value["invalidated"] == true) {
+          _isInterstitialAdLoaded = false;
+          _loadInterstitialAd();
         }
       },
     );
   }
+
 
   @override
   void dispose() {

@@ -1,8 +1,12 @@
 import 'package:facebook_audience_network/facebook_audience_network.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:swaminarayancounter/Controller/AppNotifications.dart';
 import 'package:swaminarayancounter/Controller/ad_helper.dart';
+import 'package:swaminarayancounter/Utility/env.dart';
 import 'package:swaminarayancounter/app_drawer.dart';
 import 'package:swaminarayancounter/constant.dart';
 import 'package:swaminarayancounter/MantraJap/mantra_jap.dart';
@@ -26,7 +30,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   // TODO: Add _bannerAd
@@ -48,12 +52,19 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     super.initState();
 
+    AppNotifications.init();
+    WidgetsBinding.instance!.addObserver(this);
+    initNotification();
+
+    ///  storage permission..
+    _requestPermission();
+
     FacebookAudienceNetwork.init(
         iOSAdvertiserTrackingEnabled: true //default false
     );
 
     facebookBannerAd = FacebookBannerAd(
-        placementId: "536282994722777_579373690413707",
+        placementId: swaminarayanBannerId,
         bannerSize: BannerSize.STANDARD,
         keepAlive: true,
         listener: (result,val) {},
@@ -82,9 +93,31 @@ class _MyHomePageState extends State<MyHomePage> {
     _bannerAd.load();
   }
 
+  void initNotification() async {
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+    });
+  }
+
+  ///  storage permission..
+  _requestPermission() async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.notification,
+    ].request();
+    return statuses;
+  }
+
   @override
   void dispose() {
     super.dispose();
+    WidgetsBinding.instance!.removeObserver(this);
     _bannerAd.dispose();
   }
 

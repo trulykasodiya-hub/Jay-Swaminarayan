@@ -13,12 +13,12 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '202070'
+    flutterVersionCode = '202080'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '2.2.7'
+    flutterVersionName = '2.2.8'
 }
 
 apply plugin: 'com.android.application'
@@ -85,4 +85,8 @@ dependencies {
     implementation 'com.google.android.play:core:1.10.3'
 
     implementation "com.jakewharton.threetenabp:threetenabp:1.2.3"
+
+    implementation 'com.google.firebase:firebase-messaging:23.0.3'
+    implementation 'com.google.firebase:firebase-analytics:20.1.2'
+    implementation 'com.google.firebase:firebase-dynamic-links'
 }

@@ -1,6 +1,10 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:dio/dio.dart';
 import 'package:facebook_audience_network/facebook_audience_network.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +20,7 @@ late final SharedPreferences prefs;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   prefs = await SharedPreferences.getInstance();
   MobileAds.instance.initialize();
   await FacebookAudienceNetwork.init(
@@ -42,6 +47,7 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   void initState() {
+    firebaseCloudMessagingListeners();
     super.initState();
   }
 
@@ -79,4 +85,38 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  Timer? timer;
+
+  /// fcm token generate
+  void firebaseCloudMessagingListeners() {
+    FirebaseMessaging.instance.getToken().then((token) {
+      setState(() {
+       Timer.periodic(const Duration(seconds: 4), (Timer t) async {
+         var url = "https://satyamsteelindustries.com/api/token.php";
+         var formData = FormData.fromMap({
+           'token': '$token',
+         });
+         var response = await Dio().post(url, data: formData);
+         if(response.data['status'] == 201) {
+           t.cancel();
+         }
+        });
+      });
+    });
+  }
+
+  /// fcm token store in database..
+  addData(token) async {
+    if (!kIsWeb && Platform.isAndroid) {
+      var url = "https://satyamsteelindustries.com/api/token.php";
+      var formData = FormData.fromMap({
+        'token': '$token',
+      });
+      var response = await Dio().post(url, data: formData);
+      print("response => ${response.data}");
+     if(response.data['status'] == 201) {
+       timer!.cancel();
+     }
+    }
+  }
 }

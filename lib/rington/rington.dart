@@ -12,6 +12,7 @@ import 'package:ringtone_set/ringtone_set.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:swaminarayancounter/MusicPlayer/common.dart';
 import 'package:swaminarayancounter/Utility/api_url.dart';
+import 'package:swaminarayancounter/Utility/env.dart';
 import 'package:swaminarayancounter/app_drawer.dart';
 import 'package:swaminarayancounter/constant.dart';
 
@@ -61,8 +62,11 @@ class _RingtonState extends State<Rington> {
     // TODO: implement initState
     super.initState();
     fetchUrl();
+    FacebookAudienceNetwork.init(
+        iOSAdvertiserTrackingEnabled: true //default false
+    );
     facebookBannerAd = FacebookBannerAd(
-        placementId: "536282994722777_579373690413707",
+        placementId: swaminarayanBannerId,
         bannerSize: BannerSize.STANDARD,
         keepAlive: true,
         listener: (result,val) {},
