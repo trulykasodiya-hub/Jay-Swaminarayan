@@ -10,6 +10,8 @@ const mantraJap = "મંત્ર જાપ";
 const liveDarshan = "લાઈવ દર્શન";
 const nityaNiyam = "નિત્ય નિયમ";
 const janmangalNamavali = "જનમંગલ નામાવલી";
+const janmangalStrot = "જનમંગલ સ્ત્રોત";
+const janmangalPath = "જનમંગલ પાઠ";
 const sikshapatri = "શિક્ષાપત્રી";
 const swaminarayanDhun = "સ્વામિનારાયણ ધૂન";
 const swaminarayanRington = "સ્વામિનારાયણ રિંગટોન";
@@ -24,6 +26,7 @@ const suvichar = "સુવિચાર";
 const viewMantraJap = "મંત્રજાપ જોવો";
 const swaminarayan = "સ્વામિનારાયણ";
 const saveMantraJap = "સેવ કરો";
+const whatsappStatus = "WhatsApp Status";
 
 // cities
 const amdavad = "અમદાવાદ";
@@ -84,3 +87,42 @@ const hanumanChalisha = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1656
 
 // no images
 const noImages = "https://res.cloudinary.com/ddedmrbj6/image/upload/v1656768770/wallpaper/WhatsApp_Image_2022-07-02_at_7.01.18_PM_h43yvv.jpg";
+
+// app shar text
+const shareText = '''
+🙏 🙏 જય સ્વામિનારાયણ 🙏 🙏
+
+🙏🙏PLAY STORE🙏🙏
+
+https://play.google.com/store/apps/details?id=com.truly.swaminarayancounter
+
+**Mobile Application Features**
+
+1. મંત્ર જાપ
+2. લાઈવ દર્શન (Live)
+3. નિત્ય નિયમ (With Audio)
+4. જનમંગલ નામાવલી
+5. શિક્ષાપત્રી
+6. સ્વામિનારાયણ ધૂન
+7. સ્વામિનારાયણ રિંગટોન (200++ , Download)
+8. સ્વામિનારાયણ વિડિયો (WhatsApp Status + Download)
+9. વોલપેપર (300++)
+10. હનુમાન ચાલીસા (With Audio)
+11. મહાદેવ વિડિઓ (WhatsApp Status + Download)
+12. રાધા કૃષ્ણ વિડિઓ (WhatsApp Status + Download)
+13. હનુમાન વિડિઓ (WhatsApp Status + Download)
+14. સુવિચાર
+15. કીર્તન (with Audio)
+16. પ્રભાતિયાં (with Audio)
+
+💥Download Now💥 
+
+https://play.google.com/store/apps/details?id=com.truly.swaminarayancounter
+
+ Please Share and Give Review 
+''';
+
+// janmangal
+
+const String janmangalNamavaliAudio = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1657430456/janmangal/Shri_Sahajanand_Namavali_Pathah_belpge.mp3";
+const String janmangalStrotAudio = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1657432122/janmangal/janmangalStrot.mp3";

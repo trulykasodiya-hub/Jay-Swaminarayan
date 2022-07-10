@@ -9,4 +9,5 @@ class AppUrl {
   static const String radhaKrishnaStatus = baseUrl + '/api/get_radha_krishana_status.php';
   static const String liveDarshanStatus = baseUrl + '/api/get_live_darshan.php';
   static const String ringtonApi = baseUrl + '/api/get_rington.php';
+  static const String suvicharApi = baseUrl + '/api/get_suvichar.php';
 }

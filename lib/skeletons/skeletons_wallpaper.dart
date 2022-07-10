@@ -11,3 +11,13 @@ Widget skeletonsWallpaper() {
     ),
   );
 }
+
+Widget skeletonsSuvichar() {
+  return const SkeletonAvatar(
+    style: SkeletonAvatarStyle(
+      width: double.infinity,
+      minHeight: 105,
+      maxHeight: 120,
+    ),
+  );
+}

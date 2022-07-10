@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:swaminarayancounter/Controller/AppNotifications.dart';
 import 'package:swaminarayancounter/Controller/ad_helper.dart';
 import 'package:swaminarayancounter/Utility/env.dart';
@@ -19,8 +24,10 @@ import 'package:swaminarayancounter/nitya_niyam/nitya_niyam.dart';
 import 'package:swaminarayancounter/radhaKrishanaStatus/radha_krishna_status.dart';
 import 'package:swaminarayancounter/rington/rington.dart';
 import 'package:swaminarayancounter/sikshapatri/sikshapatri.dart';
+import 'package:swaminarayancounter/suvichar/suvichar.dart';
 import 'package:swaminarayancounter/swaminarayanStatus/swaminarayan_status.dart';
 import 'package:swaminarayancounter/swaminarayanWallpaper/swaminarayan_wallpaper.dart';
+import 'package:swaminarayancounter/whatsapp_video/whatsapp_video.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -97,12 +104,15 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {
+          print("notification 1 => ${message!.data}");
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      print("onMessageOpenedApp 1 => ${message}");
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+      print("onMessage 1 => ${event.data}");
     });
   }
 
@@ -129,6 +139,19 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
       appBar: AppBar(
         elevation: 0.0,
         title: Text(widget.title),
+        actions: [
+          IconButton(onPressed: () async {
+            final bytes = await rootBundle.load('assets/images/banner.png');
+            final list = bytes.buffer.asUint8List();
+
+            final tempDir = await getTemporaryDirectory();
+            final file = await File('${tempDir.path}/jaySwaminarayan.jpg').create();
+            file.writeAsBytesSync(list);
+            Share.shareFiles([file.path],
+              text: shareText,
+            );
+          }, icon: const Icon(Icons.share))
+        ],
       ),
       drawer: const AppDrawer(),
       body: Padding(
@@ -343,7 +366,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SwaminarayanStatus()),
+                        builder: (context) => const WhatsAppStatus()),
                   );
                 },
                 child: Card(
@@ -356,93 +379,9 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(swaminarayanStatus, style: textStyle),
+                            Text(whatsappStatus, style: textStyle),
                             const Icon(Icons.check_circle_outline,
                                 color: Colors.white)
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: customHeight/2),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const HanumanStatus()),
-                  );
-                },
-                child: Card(
-                  color: Colors.deepOrange,
-                  child: SizedBox(
-                    height: 100,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(padding*2),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(hanumanStatus,style: textStyle),
-                            const Icon(Icons.check_circle_outline,color: Colors.white)
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: customHeight/2),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const MahadevStatus()),
-                  );
-                },
-                child: Card(
-                  color: Colors.deepOrange,
-                  child: SizedBox(
-                    height: 100,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(padding*2),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(mahadevStatus,style: textStyle),
-                            const Icon(Icons.check_circle_outline,color: Colors.white)
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: customHeight/2),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const RadhaKrishnaStatus()),
-                  );
-                },
-                child: Card(
-                  color: Colors.deepOrange,
-                  child: SizedBox(
-                    height: 100,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(padding*2),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(radhaKrishana,style: textStyle),
-                            const Icon(Icons.check_circle_outline,color: Colors.white)
                           ],
                         ),
                       ),
@@ -470,6 +409,34 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(rington,style: textStyle),
+                            const Icon(Icons.check_circle_outline,color: Colors.white)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: customHeight/2),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Suvichar()),
+                  );
+                },
+                child: Card(
+                  color: Colors.deepOrange,
+                  child: SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(padding*2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(suvichar,style: textStyle),
                             const Icon(Icons.check_circle_outline,color: Colors.white)
                           ],
                         ),
