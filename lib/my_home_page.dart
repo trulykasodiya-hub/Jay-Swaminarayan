@@ -18,9 +18,11 @@ import 'package:swaminarayancounter/MantraJap/mantra_jap.dart';
 import 'package:swaminarayancounter/hanumanStatus/hanuman_status.dart';
 import 'package:swaminarayancounter/hanumanchalisa/hanuman_chalisa.dart';
 import 'package:swaminarayancounter/janmangalNamavali/janmangal_namavali.dart';
+import 'package:swaminarayancounter/kirtan/kirtan.dart';
 import 'package:swaminarayancounter/liveDarshan/live_darshan.dart';
 import 'package:swaminarayancounter/mahadev_status/mahadev_status.dart';
 import 'package:swaminarayancounter/nitya_niyam/nitya_niyam.dart';
+import 'package:swaminarayancounter/prabhatiya/prabhatiya.dart';
 import 'package:swaminarayancounter/radhaKrishanaStatus/radha_krishna_status.dart';
 import 'package:swaminarayancounter/rington/rington.dart';
 import 'package:swaminarayancounter/sikshapatri/sikshapatri.dart';
@@ -104,15 +106,15 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {
-          print("notification 1 => ${message!.data}");
+
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print("onMessageOpenedApp 1 => ${message}");
+
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage event) {
-      print("onMessage 1 => ${event.data}");
+
     });
   }
 
@@ -437,6 +439,62 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(suvichar,style: textStyle),
+                            const Icon(Icons.check_circle_outline,color: Colors.white)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: customHeight/2),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Kirtan()),
+                  );
+                },
+                child: Card(
+                  color: Colors.deepOrange,
+                  child: SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(padding*2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(kirtan,style: textStyle),
+                            const Icon(Icons.check_circle_outline,color: Colors.white)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: customHeight/2),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Prabhatiya()),
+                  );
+                },
+                child: Card(
+                  color: Colors.deepOrange,
+                  child: SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(padding*2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(prabhatiya,style: textStyle),
                             const Icon(Icons.check_circle_outline,color: Colors.white)
                           ],
                         ),

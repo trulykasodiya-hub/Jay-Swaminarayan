@@ -53,6 +53,11 @@ class _SingleVideoPlayerItemState extends State<SingleVideoPlayerItem> {
             _videoController!.play();
           }
           UserPreferences().saveMahadevStatusLastId(widget.id);
+        }else if(widget.feturesName == "ganpatiStatus"){
+          if(widget.index != 7) {
+            _videoController!.play();
+          }
+          UserPreferences().saveGanpatiStatusLastId(widget.id);
         }else{
           if(widget.index != 10) {
             _videoController!.play();
@@ -71,6 +76,11 @@ class _SingleVideoPlayerItemState extends State<SingleVideoPlayerItem> {
       }
     }else if(widget.feturesName == "mahadevStatus"){
       if(widget.index == 7) {
+        _loadInterstitialAd();
+        FacebookInterstitialAd.showInterstitialAd();
+      }
+    }else if(widget.feturesName == "ganpatiStatus"){
+      if(widget.index == 5) {
         _loadInterstitialAd();
         FacebookInterstitialAd.showInterstitialAd();
       }

@@ -26,12 +26,18 @@ class UserPreferences {
     return true;
   }
 
+  Future<bool> saveGanpatiStatusLastId(ganpatiStatusLastId) async {
+    prefs.setString(ganpatiStatusLastIdKey, ganpatiStatusLastId);
+    return true;
+  }
+
   void remove() async {
     prefs.remove(mantraJapKey);
     prefs.remove(swaminarayanLastIdKey);
     prefs.remove(hanumanStatusLastIdKey);
     prefs.remove(mahadevStatusLastIdKey);
     prefs.remove(radhaKrishnaStatusLastIdKey);
+    prefs.remove(ganpatiStatusLastIdKey);
   }
 }
 
@@ -41,3 +47,4 @@ const swaminarayanLastIdKey = "swaminarayanLastId";
 const hanumanStatusLastIdKey = "hanumanStatusLastIdKey";
 const mahadevStatusLastIdKey = "mahadevStatusLastIdKey";
 const radhaKrishnaStatusLastIdKey = "radhaKrishnaStatusLastIdKey";
+const ganpatiStatusLastIdKey = "ganpatiStatusLastIdKey";

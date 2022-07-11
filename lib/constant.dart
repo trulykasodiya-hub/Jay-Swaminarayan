@@ -27,6 +27,9 @@ const viewMantraJap = "મંત્રજાપ જોવો";
 const swaminarayan = "સ્વામિનારાયણ";
 const saveMantraJap = "સેવ કરો";
 const whatsappStatus = "WhatsApp Status";
+const ganpatiStatus = "ગણપતિ વિડિઓ";
+const kirtan = "કીર્તન";
+const prabhatiya = "પ્રભાતિયાં";
 
 // cities
 const amdavad = "અમદાવાદ";

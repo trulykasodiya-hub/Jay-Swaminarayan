@@ -3,13 +3,16 @@ import 'package:swaminarayancounter/constant.dart';
 import 'package:swaminarayancounter/hanumanStatus/hanuman_status.dart';
 import 'package:swaminarayancounter/hanumanchalisa/hanuman_chalisa.dart';
 import 'package:swaminarayancounter/janmangalNamavali/janmangal_namavali.dart';
+import 'package:swaminarayancounter/kirtan/kirtan.dart';
 import 'package:swaminarayancounter/liveDarshan/live_darshan.dart';
 import 'package:swaminarayancounter/nitya_niyam/nitya_niyam.dart';
+import 'package:swaminarayancounter/prabhatiya/prabhatiya.dart';
 import 'package:swaminarayancounter/radhaKrishanaStatus/radha_krishna_status.dart';
 import 'package:swaminarayancounter/rington/rington.dart';
 import 'package:swaminarayancounter/sikshapatri/sikshapatri.dart';
 import 'package:swaminarayancounter/swaminarayanStatus/swaminarayan_status.dart';
 import 'package:swaminarayancounter/swaminarayanWallpaper/swaminarayan_wallpaper.dart';
+import 'package:swaminarayancounter/whatsapp_video/whatsapp_video.dart';
 
 import 'MantraJap/mantra_jap.dart';
 import 'mahadev_status/mahadev_status.dart';
@@ -72,12 +75,12 @@ class AppDrawer extends StatelessWidget {
               }),
           _createDrawerItem(
               icon: Icons.check_circle,
-              text: swaminarayanStatus,
+              text: whatsappStatus,
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const SwaminarayanStatus()),
+                      builder: (context) => const WhatsAppStatus()),
                 );
               }),
           _createDrawerItem(
@@ -102,36 +105,6 @@ class AppDrawer extends StatelessWidget {
               }),
           _createDrawerItem(
               icon: Icons.check_circle,
-              text: hanumanStatus,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const HanumanStatus()),
-                );
-              }),
-          _createDrawerItem(
-              icon: Icons.check_circle,
-              text: mahadevStatus,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MahadevStatus()),
-                );
-              }),
-          _createDrawerItem(
-              icon: Icons.check_circle,
-              text: radhaKrishana,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const RadhaKrishnaStatus()),
-                );
-              }),
-          _createDrawerItem(
-              icon: Icons.check_circle,
               text: rington,
               onTap: () {
                 Navigator.push(
@@ -140,10 +113,30 @@ class AppDrawer extends StatelessWidget {
                       builder: (context) => const Rington()),
                 );
               }),
+          _createDrawerItem(
+              icon: Icons.check_circle,
+              text: kirtan,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Kirtan()),
+                );
+              }),
+          _createDrawerItem(
+              icon: Icons.check_circle,
+              text: prabhatiya,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Prabhatiya()),
+                );
+              }),
           const Divider(),
           _createDrawerItem(icon: Icons.bug_report, text: 'Report an issue'),
           ListTile(
-            title: const Text('App Version : V2.2.7'),
+            title: const Text('App Version : V2.3.1'),
             onTap: () {},
           ),
         ],
