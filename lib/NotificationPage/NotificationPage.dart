@@ -29,8 +29,21 @@ class _NotificationPageState extends State<NotificationPage> {
       JaySwaminarayan.newNotification = false;
       notificationData = [];
       notificationData = prefs.getString('notification') != null ? jsonDecode(prefs.getString('notification')!) : [];
+
+      List notificationList = [];
+      final jsonList = notificationData.map((item) => jsonEncode(item)).toList();
+
+      // using toSet - toList strategy
+      final uniqueJsonList = jsonList.toSet().toList();
+
+      // convert each item back to the original form using JSON decoding
+      final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
+
+      notificationList = result;
+      UserPreferences().saveNotification(jsonEncode(notificationList));
     });
   }
+
 
   /// * Page Refresh * ///
   Future<void> _refresh() async {

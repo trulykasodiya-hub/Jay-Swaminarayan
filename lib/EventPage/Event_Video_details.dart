@@ -103,7 +103,7 @@ class _EventVideoDetailsState extends State<EventVideoDetails> {
                 const SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: widget.data['isLive'] == "1" ? Text("🔴  "+widget.data['event_name'],style: const TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold)) : Text(widget.data['event_name'],style: const TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold)),
+                  child: widget.data['isLive'] == "1" ? Text("🔴  "+widget.data['event_name'],style: const TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold)) : Text(widget.data['event_name'],style: const TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold)),
                 ),
                 const SizedBox(height: 25),
                 Flexible(

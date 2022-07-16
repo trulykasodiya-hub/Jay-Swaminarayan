@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:kt_dart/kt.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
@@ -30,6 +32,7 @@ import 'package:swaminarayancounter/nitya_niyam/nitya_niyam.dart';
 import 'package:swaminarayancounter/prabhatiya/prabhatiya.dart';
 import 'package:swaminarayancounter/rington/rington.dart';
 import 'package:swaminarayancounter/sikshapatri/sikshapatri.dart';
+import 'package:swaminarayancounter/skeletons/skeletons_wallpaper.dart';
 import 'package:swaminarayancounter/suvichar/suvichar.dart';
 import 'package:swaminarayancounter/swaminarayanWallpaper/swaminarayan_wallpaper.dart';
 import 'package:swaminarayancounter/whatsapp_video/whatsapp_video.dart';
@@ -181,8 +184,14 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                 context,
                 MaterialPageRoute(builder: (context) => const Prabhatiya()),
               );
+            }else if(message.data['data_type'] == "hindolaKirtan") {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HindolaKirtan()),
+              );
             }else{
               List getNotificationList = [];
+              List notificationList = [];
               setState(() {
                 JaySwaminarayan.newNotification = true;
                 getNotificationList = prefs.getString(notificationIdKey) != null ? jsonDecode(prefs.getString(notificationIdKey)!) : [];
@@ -196,9 +205,23 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                   "image": message.data["image"] != null ? message.data['image'].toString() : null,
                 };
                 getNotificationList.insert(0,newData);
-              });
 
-              UserPreferences().saveNotification(jsonEncode(getNotificationList));
+                final jsonList = getNotificationList.map((item) => jsonEncode(item)).toList();
+
+                // using toSet - toList strategy
+                final uniqueJsonList = jsonList.toSet().toList();
+
+                // convert each item back to the original form using JSON decoding
+                final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
+
+                notificationList = result;
+              });
+              UserPreferences().saveNotification(jsonEncode(notificationList));
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const NotificationPage()),
+              );
             }
           }
 
@@ -257,8 +280,14 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           context,
           MaterialPageRoute(builder: (context) => const Prabhatiya()),
         );
+      }else if(message.data['data_type'] == "hindolaKirtan") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HindolaKirtan()),
+        );
       }else{
         List getNotificationList = [];
+        List notificationList = [];
         setState(() {
           JaySwaminarayan.newNotification = true;
           getNotificationList = prefs.getString(notificationIdKey) != null ? jsonDecode(prefs.getString(notificationIdKey)!) : [];
@@ -272,14 +301,29 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
             "image": message.data["image"] != null ? message.data['image'].toString() : null,
           };
           getNotificationList.insert(0,newData);
-        });
 
-        UserPreferences().saveNotification(jsonEncode(getNotificationList));
+          final jsonList = getNotificationList.map((item) => jsonEncode(item)).toList();
+
+          // using toSet - toList strategy
+          final uniqueJsonList = jsonList.toSet().toList();
+
+          // convert each item back to the original form using JSON decoding
+          final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
+
+          notificationList = result;
+        });
+        UserPreferences().saveNotification(jsonEncode(notificationList));
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const NotificationPage()),
+        );
       }
       //print("onMessageOpenedApp => ${message.data}");
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("hello3 => ${message.data['data_type']}");
       if(message.data['data_type'] == "nityaNiyam") {
         Navigator.push(
           context,
@@ -330,9 +374,14 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           context,
           MaterialPageRoute(builder: (context) => const Prabhatiya()),
         );
+      }else if(message.data['data_type'] == "hindolaKirtan") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HindolaKirtan()),
+        );
       }else{
-        print("hello3 => ${message.notification!.title.toString()}");
         List getNotificationList = [];
+        List notificationList = [];
         setState(() {
           JaySwaminarayan.newNotification = true;
           getNotificationList = prefs.getString(notificationIdKey) != null ? jsonDecode(prefs.getString(notificationIdKey)!) : [];
@@ -345,12 +394,19 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
             "body": message.notification!.body.toString(),
             "image": message.data["image"] != null ? message.data['image'].toString() : null,
           };
-          print("newData => $newData");
           getNotificationList.insert(0,newData);
-          print("newData => $getNotificationList");
-        });
 
-        UserPreferences().saveNotification(jsonEncode(getNotificationList));
+          final jsonList = getNotificationList.map((item) => jsonEncode(item)).toList();
+
+          // using toSet - toList strategy
+          final uniqueJsonList = jsonList.toSet().toList();
+
+          // convert each item back to the original form using JSON decoding
+          final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
+
+          notificationList = result;
+        });
+        UserPreferences().saveNotification(jsonEncode(notificationList));
       }
      // print("onMessage => ${event.data}");
     });
@@ -887,28 +943,47 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                   }
                 }
               },
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                  colorFilter:
-                  ColorFilter.mode(Colors.black.withOpacity(statusUrl[i]['event_type'] == "video" ? 0.5 : 0.0),
-                  BlendMode.darken),
-                    image: NetworkImage(
-                        '${statusUrl[i]['url']}'),
-                    fit: BoxFit.cover,
+              child: Stack(
+                children: [
+                  Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(radius),
+                      ),
+                      child: SizedBox(
+                        height: 200,
+                        child: CachedNetworkImage(
+                          imageUrl: '${statusUrl[i]['url']}',
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Center(
+                            child: skeletonsSlider(),
+                          ),
+                          errorWidget: (context, url, uri) => const Center(
+                            child: Icon(
+                              Icons.error_outline_rounded,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
                   ),
-                  borderRadius: BorderRadius.circular(radius),
-                ),
-                child: statusUrl[i]['event_type'] == "video" ? statusUrl[i]['isLive'] == "1" ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.video_call,size: 30.0,color: Colors.white,),
-                    SizedBox(height: 2,width: 0,),
-                    Text("LIVE",style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),)
-                  ],
-                ) : const Icon(Icons.video_call,size: 50.0,color: Colors.white,) : SizedBox(height: 0,width: 0,)
-              ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(statusUrl[i]['event_type'] == "video" ? 0.5 : 0.0),
+                      ),
+                      child: statusUrl[i]['event_type'] == "video" ? statusUrl[i]['isLive'] == "1" ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: const [
+                          Icon(Icons.video_call,size: 30.0,color: Colors.white,),
+                          SizedBox(height: 2,width: 0,),
+                          Text("LIVE",style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),)
+                        ],
+                      ) : const Icon(Icons.video_call,size: 50.0,color: Colors.white,) : const SizedBox(height: 0,width: 0,)
+                  ),
+
+                ],
+              )
             )
           ],
           onPageChanged: (value) {
@@ -916,7 +991,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               print('Page changed: $value');
             }
           },
-          autoPlayInterval: 3000,
+          autoPlayInterval: 5000,
           isLoop: true,
         )
     );

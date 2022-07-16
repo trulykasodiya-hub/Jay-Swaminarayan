@@ -21,3 +21,13 @@ Widget skeletonsSuvichar() {
     ),
   );
 }
+
+Widget skeletonsSlider() {
+  return const SkeletonAvatar(
+    style: SkeletonAvatarStyle(
+      width: double.infinity,
+      minHeight: 200,
+      maxHeight: 201,
+    ),
+  );
+}
