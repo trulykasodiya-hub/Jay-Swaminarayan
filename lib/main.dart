@@ -90,6 +90,7 @@ class _MyAppState extends State<MyApp> {
   /// fcm token generate
   void firebaseCloudMessagingListeners() {
     FirebaseMessaging.instance.getToken().then((token) {
+      print("response => $token");
       setState(() {
        Timer.periodic(const Duration(seconds: 4), (Timer t) async {
          var url = "https://satyamsteelindustries.com/api/token.php";

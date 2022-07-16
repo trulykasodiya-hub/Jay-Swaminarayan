@@ -3,6 +3,7 @@ const customHeight = 15.0;
 const customWidth = 15.0;
 const fontSize = 18.0;
 const padding = 15.0;
+const radius = 8.0;
 
 // custom Global String
 const headerTitle = "જય સ્વામિનારાયણ";
@@ -30,6 +31,7 @@ const whatsappStatus = "WhatsApp Status";
 const ganpatiStatus = "ગણપતિ વિડિઓ";
 const kirtan = "કીર્તન";
 const prabhatiya = "પ્રભાતિયાં";
+const hindodaKirtan = "હિંડોળા કીર્તન";
 
 // cities
 const amdavad = "અમદાવાદ";
@@ -127,5 +129,5 @@ https://play.google.com/store/apps/details?id=com.truly.swaminarayancounter
 
 // janmangal
 
-const String janmangalNamavaliAudio = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1657430456/janmangal/Shri_Sahajanand_Namavali_Pathah_belpge.mp3";
+const String janmangalNamavaliAudio = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1657983225/janmangal/Janmangal_Namavali.mp4";
 const String janmangalStrotAudio = "https://res.cloudinary.com/ddedmrbj6/video/upload/v1657432122/janmangal/janmangalStrot.mp3";

@@ -31,6 +31,15 @@ class UserPreferences {
     return true;
   }
 
+  Future<bool> saveNotification(notification) async {
+    prefs.setString(notificationIdKey, notification);
+    return true;
+  }
+
+  void removeNotification() async {
+    prefs.remove(notificationIdKey);
+  }
+
   void remove() async {
     prefs.remove(mantraJapKey);
     prefs.remove(swaminarayanLastIdKey);
@@ -38,6 +47,7 @@ class UserPreferences {
     prefs.remove(mahadevStatusLastIdKey);
     prefs.remove(radhaKrishnaStatusLastIdKey);
     prefs.remove(ganpatiStatusLastIdKey);
+    prefs.remove(notificationIdKey);
   }
 }
 
@@ -48,3 +58,4 @@ const hanumanStatusLastIdKey = "hanumanStatusLastIdKey";
 const mahadevStatusLastIdKey = "mahadevStatusLastIdKey";
 const radhaKrishnaStatusLastIdKey = "radhaKrishnaStatusLastIdKey";
 const ganpatiStatusLastIdKey = "ganpatiStatusLastIdKey";
+const notificationIdKey = "notification";

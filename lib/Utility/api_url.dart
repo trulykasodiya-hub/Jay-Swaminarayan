@@ -13,4 +13,6 @@ class AppUrl {
   static const String kirtanApi = baseUrl + '/api/get_kirtan.php';
   static const String prabhatiyaApi = baseUrl + '/api/get_prabhatiya.php';
   static const String ganpatiStatusApi = baseUrl + '/api/get_ganpati_status.php';
+  static const String eventsApi = baseUrl + '/api/get_event_banner.php';
+  static const String hindodaKirtanApi = baseUrl + '/api/get_hindola_kirtan.php';
 }

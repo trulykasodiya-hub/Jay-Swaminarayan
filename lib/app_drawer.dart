@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:swaminarayancounter/constant.dart';
 import 'package:swaminarayancounter/hanumanStatus/hanuman_status.dart';
 import 'package:swaminarayancounter/hanumanchalisa/hanuman_chalisa.dart';
+import 'package:swaminarayancounter/hindola_kirtan/hindola_kirtan.dart';
 import 'package:swaminarayancounter/janmangalNamavali/janmangal_namavali.dart';
 import 'package:swaminarayancounter/kirtan/kirtan.dart';
 import 'package:swaminarayancounter/liveDarshan/live_darshan.dart';
@@ -10,6 +11,7 @@ import 'package:swaminarayancounter/prabhatiya/prabhatiya.dart';
 import 'package:swaminarayancounter/radhaKrishanaStatus/radha_krishna_status.dart';
 import 'package:swaminarayancounter/rington/rington.dart';
 import 'package:swaminarayancounter/sikshapatri/sikshapatri.dart';
+import 'package:swaminarayancounter/suvichar/suvichar.dart';
 import 'package:swaminarayancounter/swaminarayanStatus/swaminarayan_status.dart';
 import 'package:swaminarayancounter/swaminarayanWallpaper/swaminarayan_wallpaper.dart';
 import 'package:swaminarayancounter/whatsapp_video/whatsapp_video.dart';
@@ -133,10 +135,30 @@ class AppDrawer extends StatelessWidget {
                       builder: (context) => const Prabhatiya()),
                 );
               }),
+          _createDrawerItem(
+              icon: Icons.check_circle,
+              text: hindodaKirtan,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HindolaKirtan()),
+                );
+              }),
+          _createDrawerItem(
+              icon: Icons.check_circle,
+              text: suvichar,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Suvichar()),
+                );
+              }),
           const Divider(),
           _createDrawerItem(icon: Icons.bug_report, text: 'Report an issue'),
           ListTile(
-            title: const Text('App Version : V2.3.1'),
+            title: const Text('App Version : V2.3.2'),
             onTap: () {},
           ),
         ],
